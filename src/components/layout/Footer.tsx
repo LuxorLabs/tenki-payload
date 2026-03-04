@@ -2,30 +2,34 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { FooterBackground } from '@/components/footer-background'
 import { Logo } from '@/components/logo'
 import { ProductHuntTag } from '@/components/product-hunt-tag'
 import { UneedCarousel } from '@/components/uneed-carousel'
 import { cn } from '@/lib/utils'
 
+const TENKI_WEB_BASE = 'https://tenki.cloud'
+
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const toTenkiUrl = (href: string) => (href.startsWith('http') || href.startsWith('mailto:') ? href : `${TENKI_WEB_BASE}${href}`)
 
   return (
-    <section className="relative min-h-[450px]">
+    <section className="relative w-full">
       <footer
         className={cn(
-          'relative w-full overflow-hidden lg:absolute lg:bottom-0',
+          'relative mx-auto w-full max-w-[1200px] overflow-hidden',
           'bg-[#000A15] backdrop-blur-xs backdrop-filter',
         )}
       >
-        <div className="fade-overlay-top absolute top-0 left-0 h-30 w-full md:h-10" />
+        <FooterBackground />
         <div className="relative mx-auto flex h-full w-full max-w-[1200px] flex-col gap-12 md:items-center md:justify-center">
           <div className="z-50 flex flex-col gap-8 px-6 pt-8 md:mx-auto md:w-full md:flex-row md:justify-between md:px-16 lg:px-6 xl:px-0">
             <div className="flex flex-col border-t border-white/20 md:w-full md:flex-row md:justify-between">
               <div className="mt-6 flex flex-col gap-12 md:max-w-[228px] lg:max-w-[250px]">
                 <div className="flex flex-col gap-2">
-                  <Link href="/" aria-label="home" className="flex items-center space-x-2">
-                    <Logo />
+                  <Link href={TENKI_WEB_BASE} aria-label="home" className="flex items-center space-x-2">
+                    <Logo className="w-24" />
                   </Link>
                   <p className="text-static-secondary text-sm">
                     Say hi at{' '}
@@ -40,7 +44,7 @@ export function Footer() {
                 </div>
 
                 <div className="flex flex-col gap-y-2">
-                  <ProductHuntTag theme="light" />
+                  <ProductHuntTag theme="dark" />
                   <UneedCarousel />
                 </div>
               </div>
@@ -48,49 +52,55 @@ export function Footer() {
                 <ul className="text-static-primary order-1 space-y-3 text-sm">
                   <li className="text-static-secondary">Product</li>
                   <li>
-                    <Link href="/">Home</Link>
+                    <Link href={toTenkiUrl('/')}>Home</Link>
                   </li>
                   <li>
-                    <Link href="/features/linux">Linux Runners</Link>
+                    <Link href={toTenkiUrl('/features/linux')}>Linux Runners</Link>
                   </li>
                   <li>
-                    <Link href="/pricing">Pricing</Link>
+                    <Link href={toTenkiUrl('/pricing')}>Pricing</Link>
                   </li>
                   <li>
-                    <Link href="/docs" target="_blank">
+                    <Link href={toTenkiUrl('/docs')} target="_blank">
                       Documentation
                     </Link>
                   </li>
                   <li>
-                    <Link href="/docs/changelog" target="_blank">
+                    <Link href={toTenkiUrl('/docs/changelog')} target="_blank">
                       Changelog
                     </Link>
                   </li>
                 </ul>
 
-                <ul className="text-static-primary order-2 space-y-3 text-sm md:order-3">
+                <ul className="text-static-primary order-2 space-y-3 text-sm">
                   <li className="text-static-secondary">Company</li>
                   <li>
-                    <Link href="/blog">Blog</Link>
+                    <Link href={toTenkiUrl('/company/blog')}>Blog</Link>
                   </li>
                   <li>
-                    <Link href="/careers" target="_blank">
+                    <Link href={toTenkiUrl('/company/about')}>About</Link>
+                  </li>
+                  <li>
+                    <Link href={toTenkiUrl('/company/careers')} target="_blank">
                       Careers
                     </Link>
                   </li>
                   <li>
-                    <Link href="/docs/privacy-policy" target="_blank">
+                    <Link href={toTenkiUrl('/company/security')}>Security</Link>
+                  </li>
+                  <li>
+                    <Link href="https://tenki.cloud/docs/privacy-policy" target="_blank">
                       Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/docs/terms-of-service" target="_blank">
+                    <Link href="https://tenki.cloud/docs/terms-of-service" target="_blank">
                       Terms of Use
                     </Link>
                   </li>
                 </ul>
 
-                <ul className="text-static-primary order-3 space-y-3 text-sm md:order-2">
+                <ul className="text-static-primary order-3 space-y-3 text-sm">
                   <li className="text-static-secondary">Connect</li>
                   <li>
                     <Link href="https://x.com/tenkicloud">X (Twitter)</Link>
@@ -102,7 +112,7 @@ export function Footer() {
                     <Link href="https://discord.gg/qNFaWrR6um">Discord</Link>
                   </li>
                   <li>
-                    <Link href="https://calendly.com/tenki-cloud/30min" target="_blank">
+                    <Link href="https://calendly.com/d/cq87-j8n-2yx/tenki-cloud-intro" target="_blank">
                       Book Demo
                     </Link>
                   </li>
@@ -114,7 +124,15 @@ export function Footer() {
             <div className="text-static-secondary flex flex-col gap-y-2 border-t border-white/20 py-6 md:flex-row md:items-center md:justify-between">
               <div className="px-0 text-sm md:text-xs lg:text-sm" />
               <div className="px-0 text-sm md:text-xs lg:text-sm">
-                © {currentYear} Tenki LLC. <span className="text-cta-link-rest">Built in Seattle, WA.</span>
+                © {currentYear} Tenki LLC.{' '}
+                <Link
+                  href="https://www.builtinseattle.com/company/tenki-cloud"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cta-link-rest hover:text-cta-link-rest/80 transition-colors duration-300 ease-out"
+                >
+                  Built in Seattle, WA.
+                </Link>
               </div>
             </div>
           </div>
