@@ -11,20 +11,7 @@
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
 	},
-	"d1_databases": [
-		{
-			"binding": "D1",
-			"database_name": "tenki-blog",
-			"database_id": "9a40fe10-1375-4f4c-8e5b-bc61e533a936"
-		}
-	],
-	"r2_buckets": [
-		{
-			"bucket_name": "tenki-blog",
-			"binding": "R2"
-		}
-	],
 	"vars": {
-		"R2_PUBLIC_URL": "https://pub-a6d3a947a939445a9c28d0145ee1ebb9.r2.dev"
-	}
+		"R2_PUBLIC_URL": ""
+	},
 }

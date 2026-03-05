@@ -141,18 +141,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   )
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    where: {
-      status: { equals: 'published' },
-    },
-    limit: 1000,
-  })
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  return []
 }

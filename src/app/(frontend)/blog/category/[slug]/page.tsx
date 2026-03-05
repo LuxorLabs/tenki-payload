@@ -102,15 +102,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   )
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-
-  const { docs: categories } = await payload.find({
-    collection: 'categories',
-    limit: 1000,
-  })
-
-  return categories.map((category) => ({
-    slug: category.slug,
-  }))
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  return []
 }

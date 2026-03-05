@@ -72,11 +72,19 @@ pnpm payload migrate:create
 ```bash
 # Create D1 database
 pnpm wrangler d1 create tenki-blog
+### Binding name: D1
 
 # Create R2 bucket
 pnpm wrangler r2 bucket create public-tenki-blog
+### Binding name: R2
+
 pnpm wrangler r2 bucket update public-tenki-blog --public-access
-pnpm wrangler r2 bucket info public-tenki-blog
+# [above command is deprecated]
+### do this instead: 
+### -> Go to dash.cloudflare.com → R2 Object Storage
+### -> Click on the public-tenki-blog bucket
+### -> Go to Settings tab
+### -> Under Public Development URL, enable it and note the public URL (e.g., https://pub-xxx.r2.dev)
 ```
 
 Note: whether you want local dev to conenct to deployed cf resources is up to you...it doesn't matter which you choose we can change it anytime anyways
@@ -147,10 +155,10 @@ Your app will be available at: `https://tenki-blog.<your-subdomain>.workers.dev`
 NODE_ENV=production pnpm payload migrate
 ```
 
-If above step did not work, try this.
-Please remember that migration.sql is just a backup incase initial deployment failed. As much as possible avoid relying on it
+If above step did not work (which definitely is because above command is only for local d1), try this.
+Please remember that migration.sql is just a backup incase initial deployment failed. As much as possible avoid relying on it. Think of a way to perform d1 migration better.
 ```bash
-pnpm wrangler d1 execute tenki-blog --file=migration.sql
+pnpm wrangler d1 execute tenki-blog --file=migration.sql --remote
 ```
 
 ## Connecting Local Dev to Remote Cloudflare Resources

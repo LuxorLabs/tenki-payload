@@ -98,15 +98,6 @@ export default async function TagPage({ params }: TagPageProps) {
   )
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-
-  const { docs: tags } = await payload.find({
-    collection: 'tags',
-    limit: 1000,
-  })
-
-  return tags.map((tag) => ({
-    slug: tag.slug,
-  }))
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  return []
 }
