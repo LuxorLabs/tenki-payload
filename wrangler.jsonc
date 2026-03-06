@@ -12,6 +12,19 @@
 		"binding": "ASSETS"
 	},
 	"vars": {
-		"R2_PUBLIC_URL": ""
+		"R2_PUBLIC_URL": "https://assets.blog.tenki.cloud"
 	},
+	"d1_databases": [
+		{
+			"binding": "D1",
+			"database_name": "tenki-blog",
+			"database_id": "37dc1605-5089-4b89-9f87-881c5c297d80"
+		}
+	],
+	"r2_buckets": [
+		{
+			"bucket_name": "public-tenki-blog",
+			"binding": "R2"
+		}
+	],
 }

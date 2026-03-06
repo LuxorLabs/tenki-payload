@@ -71,7 +71,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="container mx-auto px-4 py-12">
       <Link
-        href="/blog"
+        href="/"
         className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" />

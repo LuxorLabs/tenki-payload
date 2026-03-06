@@ -3,6 +3,8 @@ import { Geist } from 'next/font/google'
 import '../globals.css'
 import { cn } from '@/lib/utils'
 import { ReactLenis } from '../lenis'
+import { Navigation } from '@/components/layout/Navigation'
+import { Footer } from '@/components/layout/Footer'
 
 const geist = Geist({
   subsets: ['latin'],
@@ -24,7 +26,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" className={cn(geist.className, 'scroll-smooth')}>
       <ReactLenis root options={{ duration: 0.6 }}>
         <body className="flex min-h-screen flex-col scroll-smooth bg-[#000A15]">
-          {children}
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
         </body>
       </ReactLenis>
     </html>

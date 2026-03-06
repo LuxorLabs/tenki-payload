@@ -44,7 +44,9 @@ When you first visit the admin panel at http://localhost:3000/admin, Payload wil
 3. Set the environment variable:
 
 ```bash
-export CLOUDFLARE_API_TOKEN="your-api-token-here"
+export CLOUDFLARE_API_TOKEN="your-api-token"
+export CLOUDFLARE_ACCOUNT_ID="your-account-id"
+
 ```
 
 **Option B: OAuth Login (Interactive)**
@@ -152,7 +154,8 @@ Your app will be available at: `https://tenki-blog.<your-subdomain>.workers.dev`
 ## 8. Migrate schema to remote D1
 ```bash
 # Run migrations on remote
-NODE_ENV=production pnpm payload migrate
+# At this point im not sure if it works even for locally; its meant to be for remote migration but idk
+# NODE_ENV=production pnpm payload migrate
 ```
 
 If above step did not work (which definitely is because above command is only for local d1), try this.

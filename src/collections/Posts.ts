@@ -10,7 +10,7 @@ export const Posts: CollectionConfig = {
     preview: (doc) => {
       if (doc?.slug) {
         // Return relative URL - Payload automatically constructs absolute URL from browser
-        return `/blog/${doc.slug}`
+        return `/${doc.slug}`
       }
       return null
     },
