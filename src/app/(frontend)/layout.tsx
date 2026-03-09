@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { ReactLenis } from '../lenis'
 import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/layout/Footer'
+import type { Metadata, Viewport } from 'next'
 
 const geist = Geist({
   subsets: ['latin'],
@@ -13,10 +14,46 @@ const geist = Geist({
   fallback: ['system-ui', 'arial'],
 })
 
-export const metadata = {
-  description: 'Tenki Blog',
-  title: 'Tenki Blog',
-  icons: [{ url: '/images/favicon-default.png' }],
+const OG_IMAGE = 'https://storage.googleapis.com/tenki-cloud-assets/web/tenki-open-graph.webp'
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://blog.tenki.cloud'),
+  title: {
+    default: 'Tenki Blog',
+    template: '%s | Tenki Blog',
+  },
+  description: 'Product updates, guides, tutorials, and tips from the Tenki team.',
+  keywords: ['Tenki', 'GitHub Actions Runners', 'CI/CD', 'DevOps', 'blog'],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  openGraph: {
+    title: 'Tenki Blog',
+    description: 'Product updates, guides, tutorials, and tips from the Tenki team.',
+    url: 'https://blog.tenki.cloud',
+    type: 'website',
+    siteName: 'Tenki',
+    locale: 'en_US',
+    images: [{ url: OG_IMAGE }],
+  },
+  twitter: {
+    title: 'Tenki Blog',
+    description: 'Product updates, guides, tutorials, and tips from the Tenki team.',
+    card: 'summary_large_image',
+    images: [{ url: OG_IMAGE }],
+  },
+  icons: {
+    icon: '/images/favicon-default.png',
+    apple: '/images/favicon-default.png',
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#000A15',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -26,6 +63,24 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" className={cn(geist.className, 'scroll-smooth')}>
       <ReactLenis root options={{ duration: 0.6 }}>
         <body className="flex min-h-screen flex-col scroll-smooth bg-[#000A15]">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'Tenki',
+                url: 'https://tenki.cloud',
+                logo: OG_IMAGE,
+                contactPoint: {
+                  '@type': 'ContactPoint',
+                  contactType: 'customer support',
+                  email: 'hello@tenki.cloud',
+                },
+                sameAs: ['https://x.com/TenkiCloud'],
+              }),
+            }}
+          />
           <Navigation />
           <main>{children}</main>
           <Footer />

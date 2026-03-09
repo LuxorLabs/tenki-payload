@@ -7,8 +7,7 @@ import type { Post, Tag } from '@/payload-types'
 
 export const metadata = {
   title: 'Tenki Blog | Product Updates, Guides, Tutorials, & Tips',
-  description:
-    'Tenki Blog',
+  description: 'Product updates, guides, tutorials, and tips from the Tenki team.',
 }
 
 export const revalidate = 60

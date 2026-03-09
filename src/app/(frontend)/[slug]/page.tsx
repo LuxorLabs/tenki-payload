@@ -40,20 +40,28 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   const ogImage = post.seo?.ogImage as Media | undefined
   const featuredImage = post.featuredImage as Media
 
+  const title = post.seo?.metaTitle || post.title
+  const description = post.seo?.metaDescription || post.excerpt
+  const image = ogImage?.url || featuredImage?.url
+  const url = `https://blog.tenki.cloud/${post.slug}`
+
   return {
-    title: post.seo?.metaTitle || post.title,
-    description: post.seo?.metaDescription || post.excerpt,
+    title,
+    description,
     keywords: post.seo?.keywords?.map((k) => k.keyword),
     openGraph: {
-      title: post.seo?.metaTitle || post.title,
-      description: post.seo?.metaDescription || post.excerpt,
-      images: ogImage?.url || featuredImage?.url ? [ogImage?.url || featuredImage.url] : [],
+      title,
+      description,
+      type: 'article',
+      url,
+      siteName: 'Tenki',
+      images: image ? [{ url: image, width: 1200, height: 630, alt: title }] : [],
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.seo?.metaTitle || post.title,
-      description: post.seo?.metaDescription || post.excerpt,
-      images: ogImage?.url || featuredImage?.url ? [ogImage?.url || featuredImage.url] : [],
+      title,
+      description,
+      images: image ? [image] : [],
     },
     ...(post.seo?.canonicalURL && { alternates: { canonical: post.seo.canonicalURL } }),
     ...(post.seo?.noIndex && { robots: { index: false, follow: false } }),
