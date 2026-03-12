@@ -78,9 +78,12 @@ function serializeLexical(node: any): React.ReactNode {
         return <li>{children}</li>
       case 'quote':
         return <blockquote>{children}</blockquote>
+      case 'autolink':
       case 'link':
+        const href = node.fields?.url ?? node.url ?? '#'
+        const newTab = node.fields?.newTab ?? node.newTab
         return (
-          <a href={node.url} target={node.newTab ? '_blank' : undefined} rel={node.newTab ? 'noopener noreferrer' : undefined}>
+          <a href={href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener noreferrer' : undefined}>
             {children}
           </a>
         )
