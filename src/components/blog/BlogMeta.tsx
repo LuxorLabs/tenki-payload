@@ -58,7 +58,7 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
     : BLOG_DEFAULT_IMG
 
   return (
-    <section className="mx-auto mt-[-320px] flex w-full max-w-[1000px] flex-col px-6 md:px-12 lg:items-start lg:justify-between xl:px-0">
+    <section className="mx-auto mt-[-220px] flex w-full max-w-[1000px] flex-col px-6 md:px-12 lg:items-start lg:justify-between xl:px-0">
       <div className="flex w-full flex-col">
         <div className="relative aspect-video w-full">
           <Image

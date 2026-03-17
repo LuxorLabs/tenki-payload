@@ -47,6 +47,13 @@ export const Media: CollectionConfig = {
         description: 'Photo credit or attribution',
       },
     },
+    {
+      name: 'sourceUrl',
+      type: 'text',
+      admin: {
+        description: 'Original URL this image was downloaded from',
+      },
+    },
   ],
   upload: {
     // These are not supported on Workers yet due to lack of sharp

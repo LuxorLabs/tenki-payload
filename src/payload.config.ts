@@ -8,6 +8,7 @@ import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
 
+import { editorialDiscoveryHandler } from './endpoints/editorial-discovery'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Authors } from './collections/Authors'
@@ -44,6 +45,13 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Authors, Categories, Tags, Posts],
+  endpoints: [
+    {
+      path: '/editorial/discovery',
+      method: 'get',
+      handler: editorialDiscoveryHandler,
+    },
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
