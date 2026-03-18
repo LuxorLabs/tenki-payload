@@ -72,8 +72,8 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
         </div>
         <div className="my-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-col gap-3 md:flex-row">
-            {post.createdAt && post.author && (
-              <BlogAuthor author={post.author} datePublished={post.createdAt} />
+            {(post.publishedAt || post.createdAt) && post.author && (
+              <BlogAuthor author={post.author} datePublished={post.publishedAt || post.createdAt} />
             )}
             <div className="z-10 flex items-center gap-2">
               <span className="text-sm text-gray-400 md:hidden">{readingTime(post)}</span>

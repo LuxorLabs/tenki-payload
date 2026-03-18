@@ -39,8 +39,8 @@ export function BlogCard({ post }: BlogCardProps) {
           />
         </div>
 
-        {post.createdAt && author && (
-          <BlogAuthor author={author} datePublished={post.createdAt} />
+        {(post.publishedAt || post.createdAt) && author && (
+          <BlogAuthor author={author} datePublished={post.publishedAt || post.createdAt} />
         )}
         <p className="line-clamp-2 h-[56px] max-h-[56px] text-lg font-semibold">{post.title}</p>
         {post.tags && <BlogTag post={post} displayReadTime />}

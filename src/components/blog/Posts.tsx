@@ -61,8 +61,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
       const dateTo = new Date(debouncedDateRange.to)
       dateTo.setHours(23, 59, 59, 999)
       return filteredData.filter((post: Post) => {
-        // Use createdAt as fallback (similar to Ghost's created_at)
-        const dateField = post.createdAt
+        const dateField = post.publishedAt || post.createdAt
         if (!dateField) {
           return false
         }
