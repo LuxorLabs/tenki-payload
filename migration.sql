@@ -347,6 +347,9 @@ CREATE INDEX IF NOT EXISTS `payload_locked_documents_rels_categories_id_idx` ON 
 CREATE INDEX IF NOT EXISTS `payload_locked_documents_rels_tags_id_idx` ON `payload_locked_documents_rels` (`tags_id`);
 CREATE INDEX IF NOT EXISTS `payload_locked_documents_rels_posts_id_idx` ON `payload_locked_documents_rels` (`posts_id`);
 
+-- Migration 4: Add source_url to media
+ALTER TABLE `media` ADD COLUMN `source_url` text;
+
 -- Migration 3: 20251120_135256 - Add API key support to users
 ALTER TABLE `users` ADD COLUMN `enable_a_p_i_key` integer;
 ALTER TABLE `users` ADD COLUMN `api_key` text;

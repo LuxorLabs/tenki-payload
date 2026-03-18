@@ -52,6 +52,7 @@ export default buildConfig({
       handler: editorialDiscoveryHandler,
     },
   ],
+  debug: true,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
