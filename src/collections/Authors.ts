@@ -13,15 +13,17 @@ export const Authors: CollectionConfig = {
     },
     create: ({ req: { user } }) => {
       if (!user) return false
+      if (user.role === 'super-admin') return true
       return ['admin', 'marketing', 'product'].includes(user.role)
     },
     update: ({ req: { user } }) => {
       if (!user) return false
+      if (user.role === 'super-admin') return true
       return ['admin', 'marketing', 'product'].includes(user.role)
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return user.role === 'admin'
+      return user.role === 'super-admin' || user.role === 'admin'
     },
   },
   fields: [

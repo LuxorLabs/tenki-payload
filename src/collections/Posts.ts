@@ -21,19 +21,18 @@ export const Posts: CollectionConfig = {
       return !!user
     },
     create: ({ req: { user } }) => {
-      // Admin, Marketing, and Product can create posts
       if (!user) return false
+      if (user.role === 'super-admin') return true
       return ['admin', 'marketing', 'product'].includes(user.role)
     },
     update: ({ req: { user } }) => {
-      // Admin, Marketing, and Product can update posts
       if (!user) return false
+      if (user.role === 'super-admin') return true
       return ['admin', 'marketing', 'product'].includes(user.role)
     },
     delete: ({ req: { user } }) => {
-      // Only Admin can delete posts
       if (!user) return false
-      return user.role === 'admin'
+      return user.role === 'super-admin' || user.role === 'admin'
     },
   },
   versions: {

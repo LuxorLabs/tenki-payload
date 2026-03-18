@@ -9,17 +9,16 @@ export const Media: CollectionConfig = {
       return !!user
     },
     create: ({ req: { user } }) => {
-      // Require authentication and viewers cannot create media
       if (!user) return false
+      if (user.role === 'super-admin') return true
       return user.role !== 'viewer'
     },
     update: ({ req: { user } }) => {
-      // Require authentication and viewers cannot update media
       if (!user) return false
+      if (user.role === 'super-admin') return true
       return user.role !== 'viewer'
     },
     delete: ({ req: { user } }) => {
-      // Require authentication and only super admins and admins can delete media
       if (!user) return false
       return user.role === 'super-admin' || user.role === 'admin'
     },
