@@ -13,8 +13,7 @@ interface CategoryPageProps {
   }>
 }
 
-export async function generateMetadata({ params }: CategoryPageProps) {
-  const { slug } = await params
+async function getCategory(slug: string) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -23,9 +22,15 @@ export async function generateMetadata({ params }: CategoryPageProps) {
       slug: { equals: slug },
     },
     limit: 1,
+    overrideAccess: true,
   })
 
-  const category = docs[0] as Category | undefined
+  return docs[0] as Category | undefined
+}
+
+export async function generateMetadata({ params }: CategoryPageProps) {
+  const { slug } = await params
+  const category = await getCategory(slug)
 
   if (!category) {
     return {
@@ -41,31 +46,24 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs: categories } = await payload.find({
-    collection: 'categories',
-    where: {
-      slug: { equals: slug },
-    },
-    limit: 1,
-  })
-
-  const category = categories[0] as Category | undefined
+  const category = await getCategory(slug)
 
   if (!category) {
     notFound()
   }
 
+  const payload = await getPayload({ config })
+
   const { docs: posts } = await payload.find({
     collection: 'posts',
-    depth: 2,
+    depth: 1,
     where: {
       category: { equals: category.id },
       status: { equals: 'published' },
     },
     sort: '-publishedAt',
     limit: 50,
+    overrideAccess: true,
   })
 
   return (
@@ -103,5 +101,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  return []
+  const payload = await getPayload({ config })
+
+  const { docs } = await payload.find({
+    collection: 'categories',
+    limit: 100,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  return docs.map((cat) => ({ slug: cat.slug }))
 }

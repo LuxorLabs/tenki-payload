@@ -16,20 +16,26 @@ interface BlogPostPageProps {
 
 export const dynamic = 'force-static'
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
-  const { slug } = await params
+async function getPost(slug: string) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
     collection: 'posts',
     where: {
       slug: { equals: slug },
+      status: { equals: 'published' },
     },
     limit: 1,
-    depth: 2,
+    depth: 1,
+    overrideAccess: true,
   })
 
-  const post = docs[0] as Post | undefined
+  return docs[0] as Post | undefined
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps) {
+  const { slug } = await params
+  const post = await getPost(slug)
 
   if (!post) {
     return {
@@ -70,23 +76,13 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'posts',
-    where: {
-      slug: { equals: slug },
-      status: { equals: 'published' },
-    },
-    limit: 1,
-    depth: 2,
-  })
-
-  const post = docs[0] as Post | undefined
+  const post = await getPost(slug)
 
   if (!post) {
     notFound()
   }
+
+  const payload = await getPayload({ config })
 
   // Extract tag IDs and category ID for related posts
   const tagIds = post.tags
@@ -134,7 +130,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       ],
     },
     limit: 4,
-    depth: 2,
+    depth: 1,
+    overrideAccess: true,
   })
 
   const relatedPosts = relatedPostsQuery.docs as Post[]
@@ -150,5 +147,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  return []
+  const payload = await getPayload({ config })
+
+  const { docs } = await payload.find({
+    collection: 'posts',
+    where: { status: { equals: 'published' } },
+    limit: 1000,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  return docs.map((post) => ({ slug: post.slug }))
 }

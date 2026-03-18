@@ -11,6 +11,9 @@
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
 	},
+	"placement": {
+		"mode": "smart"
+	},
 	"vars": {
 		"R2_PUBLIC_URL": "https://assets.blog.tenki.cloud"
 	},

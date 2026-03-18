@@ -38,7 +38,7 @@ export const Posts: CollectionConfig = {
   versions: {
     drafts: {
       autosave: {
-        interval: 375, // Autosave every 375ms
+        interval: 3000, // Autosave every 3 seconds
       },
     },
     maxPerDoc: 50,

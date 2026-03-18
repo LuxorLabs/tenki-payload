@@ -18,7 +18,7 @@ export default async function BlogPage() {
   const [postsResponse, tagsResponse] = await Promise.all([
     payload.find({
       collection: 'posts',
-      depth: 2,
+      depth: 1,
       where: {
         status: {
           equals: 'published',

@@ -52,7 +52,7 @@ export default buildConfig({
       handler: editorialDiscoveryHandler,
     },
   ],
-  debug: true,
+  debug: !isProduction,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

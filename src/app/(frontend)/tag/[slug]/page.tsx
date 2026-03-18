@@ -13,8 +13,7 @@ interface TagPageProps {
   }>
 }
 
-export async function generateMetadata({ params }: TagPageProps) {
-  const { slug } = await params
+async function getTag(slug: string) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -23,9 +22,15 @@ export async function generateMetadata({ params }: TagPageProps) {
       slug: { equals: slug },
     },
     limit: 1,
+    overrideAccess: true,
   })
 
-  const tag = docs[0] as Tag | undefined
+  return docs[0] as Tag | undefined
+}
+
+export async function generateMetadata({ params }: TagPageProps) {
+  const { slug } = await params
+  const tag = await getTag(slug)
 
   if (!tag) {
     return {
@@ -41,31 +46,24 @@ export async function generateMetadata({ params }: TagPageProps) {
 
 export default async function TagPage({ params }: TagPageProps) {
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs: tags } = await payload.find({
-    collection: 'tags',
-    where: {
-      slug: { equals: slug },
-    },
-    limit: 1,
-  })
-
-  const tag = tags[0] as Tag | undefined
+  const tag = await getTag(slug)
 
   if (!tag) {
     notFound()
   }
 
+  const payload = await getPayload({ config })
+
   const { docs: posts } = await payload.find({
     collection: 'posts',
-    depth: 2,
+    depth: 1,
     where: {
       tags: { contains: tag.id },
       status: { equals: 'published' },
     },
     sort: '-publishedAt',
     limit: 50,
+    overrideAccess: true,
   })
 
   return (
@@ -99,5 +97,14 @@ export default async function TagPage({ params }: TagPageProps) {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  return []
+  const payload = await getPayload({ config })
+
+  const { docs } = await payload.find({
+    collection: 'tags',
+    limit: 100,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  return docs.map((tag) => ({ slug: tag.slug }))
 }
