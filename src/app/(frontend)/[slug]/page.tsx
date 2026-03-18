@@ -147,15 +147,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'posts',
-    where: { status: { equals: 'published' } },
-    limit: 1000,
-    depth: 0,
-    overrideAccess: true,
-  })
-
-  return docs.map((post) => ({ slug: post.slug }))
+  // D1 doesn't support concurrent queries at build time (SQLITE_BUSY),
+  // so pages are statically generated on first request instead
+  return []
 }

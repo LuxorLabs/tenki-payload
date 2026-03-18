@@ -7,6 +7,8 @@ import { BlogCard } from '@/components/blog/BlogCard'
 import { ArrowLeft } from 'lucide-react'
 import type { Post, Tag } from '@/payload-types'
 
+export const revalidate = 60
+
 interface TagPageProps {
   params: Promise<{
     slug: string
@@ -97,14 +99,5 @@ export default async function TagPage({ params }: TagPageProps) {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'tags',
-    limit: 100,
-    depth: 0,
-    overrideAccess: true,
-  })
-
-  return docs.map((tag) => ({ slug: tag.slug }))
+  return []
 }

@@ -7,6 +7,8 @@ import { BlogCard } from '@/components/blog/BlogCard'
 import { ArrowLeft } from 'lucide-react'
 import type { Post, Category } from '@/payload-types'
 
+export const revalidate = 60
+
 interface CategoryPageProps {
   params: Promise<{
     slug: string
@@ -101,14 +103,5 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'categories',
-    limit: 100,
-    depth: 0,
-    overrideAccess: true,
-  })
-
-  return docs.map((cat) => ({ slug: cat.slug }))
+  return []
 }
