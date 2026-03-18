@@ -15,28 +15,33 @@ export const revalidate = 60
 export default async function BlogPage() {
   const payload = await getPayload({ config })
 
-  const [postsResponse, tagsResponse] = await Promise.all([
-    payload.find({
-      collection: 'posts',
-      depth: 1,
-      where: {
-        status: {
-          equals: 'published',
-        },
+  const postsResponse = await payload.find({
+    collection: 'posts',
+    depth: 1,
+    where: {
+      status: {
+        equals: 'published',
       },
-      sort: '-publishedAt',
-      limit: 10,
-      overrideAccess: true,
-    }),
-    payload.find({
-      collection: 'tags',
-      limit: 100,
-      overrideAccess: true,
-    }),
-  ])
+    },
+    sort: '-publishedAt',
+    limit: 10,
+    overrideAccess: true,
+  })
 
   const posts = postsResponse.docs as Post[]
-  const tags = tagsResponse.docs as Tag[]
+
+  // Extract unique tags from published posts only
+  const tagsMap = new Map<number, Tag>()
+  for (const post of posts) {
+    if (post.tags) {
+      for (const tag of post.tags) {
+        if (typeof tag !== 'number' && tag.id) {
+          tagsMap.set(tag.id, tag)
+        }
+      }
+    }
+  }
+  const tags = Array.from(tagsMap.values())
 
   return (
     <>
