@@ -55,29 +55,8 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // These are not supported on Workers yet due to lack of sharp
+    // Sharp is not available on Cloudflare Workers — disable all image processing
     crop: false,
     focalPoint: false,
-    adminThumbnail: 'thumbnail',
-    imageSizes: [
-      {
-        name: 'thumbnail',
-        width: 400,
-        height: 300,
-        position: 'centre',
-      },
-      {
-        name: 'card',
-        width: 768,
-        height: 512,
-        position: 'centre',
-      },
-      {
-        name: 'featured',
-        width: 1200,
-        height: 630,
-        position: 'centre',
-      },
-    ],
   },
 }
