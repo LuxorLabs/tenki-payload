@@ -9,6 +9,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/logo'
+import { ReviewerBanner } from '@/components/blog/ReviewerBanner'
 import { NavSubmenu, type NavSubmenuItem } from '@/components/layout/nav-submenu'
 import NavLinuxIcon from '@/assets/svg/nav-linux-icon.svg'
 import NavAppleIcon from '@/assets/svg/nav-apple-icon.svg'
@@ -157,6 +158,7 @@ export const Navigation = () => {
 
   return (
     <header className={cn('w-full')}>
+      <ReviewerBanner hidden={scrolled || isSheetOpen} />
       <div className="flex w-full justify-center">
         <motion.nav
           className={cn(

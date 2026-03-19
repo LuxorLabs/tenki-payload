@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { ReactLenis } from '../lenis'
 import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/layout/Footer'
+
 import type { Metadata, Viewport } from 'next'
 
 const geist = Geist({

@@ -7,6 +7,7 @@ import { Logo } from '@/components/logo'
 import { ProductHuntTag } from '@/components/product-hunt-tag'
 import { UneedCarousel } from '@/components/uneed-carousel'
 import { cn } from '@/lib/utils'
+import { PromotionalBanner } from '@/components/blog/PromotionalBanner'
 
 const TENKI_WEB_BASE = 'https://tenki.cloud'
 
@@ -15,13 +16,15 @@ export function Footer() {
   const toTenkiUrl = (href: string) => (href.startsWith('http') || href.startsWith('mailto:') ? href : `${TENKI_WEB_BASE}${href}`)
 
   return (
-    <section className="relative w-full">
-      <footer
-        className={cn(
-          'relative mx-auto w-full max-w-[1200px] overflow-hidden',
-          'bg-[#000A15] backdrop-blur-xs backdrop-filter',
-        )}
-      >
+    <>
+      <PromotionalBanner />
+      <section className="relative w-full">
+        <footer
+          className={cn(
+            'relative mx-auto w-full max-w-[1200px] overflow-hidden',
+            'bg-[#000A15] backdrop-blur-xs backdrop-filter',
+          )}
+        >
         <FooterBackground />
         <div className="relative mx-auto flex h-full w-full max-w-[1200px] flex-col gap-12 md:items-center md:justify-center">
           <div className="z-50 flex flex-col gap-8 px-6 pt-8 md:mx-auto md:w-full md:flex-row md:justify-between md:px-16 lg:px-6 xl:px-0">
@@ -137,7 +140,8 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </footer>
-    </section>
+        </footer>
+      </section>
+    </>
   )
 }

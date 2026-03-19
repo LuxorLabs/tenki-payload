@@ -24,7 +24,7 @@ export default async function BlogPage() {
       },
     },
     sort: '-publishedAt',
-    limit: 10,
+    limit: 100,
     overrideAccess: true,
   })
 
