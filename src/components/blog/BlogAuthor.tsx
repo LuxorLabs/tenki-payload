@@ -30,8 +30,8 @@ export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
   }
 
   return (
-    <div className="text-static-primary flex items-center gap-1 text-sm">
-      <div className="relative size-5">
+    <div className="text-static-primary flex min-w-0 items-center gap-1 text-sm">
+      <div className="relative size-5 shrink-0">
         <Image
           src={avatarUrl}
           fill
@@ -39,9 +39,9 @@ export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
           className="border-static-profile size-5 rounded-full border"
         />
       </div>
-      <span>{author.name}</span>
-      <span className="size-0.5 bg-white" />
-      <span>{format(new Date(datePublished), 'MMM dd, yyyy')}</span>
+      <span className="shrink-0 whitespace-nowrap">{author.name}</span>
+      <span className="size-0.5 shrink-0 bg-white" />
+      <span className="shrink-0 whitespace-nowrap">{format(new Date(datePublished), 'MMM dd, yyyy')}</span>
     </div>
   )
 }

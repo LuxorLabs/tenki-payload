@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { CaretLeftIcon, CaretRightIcon, XIcon } from '@phosphor-icons/react'
+import { CaretDownIcon, CaretLeftIcon, CaretRightIcon, CheckIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { isAfter, isBefore, isEqual } from 'date-fns'
 import { BlogCard } from './BlogCard'
 import { Button } from '@/components/ui/button'
 import { NoResults } from '@/components/no-results'
 import { DatePickerRange, DateRange } from '@/components/ui/date-range'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/utils/hooks/use-debounce'
 import type { Post, Tag } from '@/payload-types'
@@ -95,36 +96,90 @@ export const Posts = ({ posts, tags }: PostsProps) => {
     setFilters(Object.fromEntries(tagNames.map((name) => [name, false])))
   }
 
+  const [tagSearch, setTagSearch] = useState('')
+
+  const visibleTags = useMemo(() => {
+    if (!tagSearch.trim()) return tagNames
+    const query = tagSearch.toLowerCase()
+    return tagNames.filter((tag) => tag.toLowerCase().includes(query))
+  }, [tagNames, tagSearch])
+
+  const tagFilterLabel = appliedFiltersCount > 0
+    ? `${appliedFiltersCount} Tag${appliedFiltersCount > 1 ? 's' : ''} Selected`
+    : 'All Tags'
+
   return (
     <section className="relative mx-auto mt-6 max-w-5xl px-6 md:mb-16 md:px-12 xl:px-0">
-      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-        <div className="flex flex-wrap gap-2">
-          {tagNames.map((tag) => (
-            <Button
-              key={tag}
-              className={cn(
-                'hover:border-cta-secondary-selected-border cursor-pointer h-9 !p-2.5 transition-colors duration-200',
-                filters[tag as string] &&
-                  'border-cta-secondary-selected-border bg-cta-secondary-interacted',
-              )}
-              variant={'secondary'}
-              onClick={() => {
-                setFilters({
-                  ...filters,
-                  [tag as string]: !filters[tag as string],
-                })
-              }}
-            >
-              {tag}
-            </Button>
-          ))}
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
+          <Popover onOpenChange={(open) => { if (!open) setTagSearch('') }}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="secondary"
+                className="h-9 w-52 cursor-pointer justify-between !px-3 text-sm transition-colors duration-200"
+              >
+                <span className="line-clamp-1">{tagFilterLabel}</span>
+                <CaretDownIcon className="size-4 shrink-0" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-56 rounded-xl p-0" align="start">
+              <div className="border-input-controls-border border-b p-2">
+                <div className="relative">
+                  <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={tagSearch}
+                    onChange={(e) => setTagSearch(e.target.value)}
+                    placeholder="Search tags..."
+                    className="bg-transparent h-8 w-full rounded-md pl-8 pr-2 text-sm text-white outline-none placeholder:text-gray-500"
+                  />
+                </div>
+              </div>
+              <div className="max-h-64 overflow-y-auto p-2">
+                {!tagSearch.trim() && (
+                  <button
+                    onClick={resetFilters}
+                    className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
+                  >
+                    <span className="flex w-4 shrink-0 items-center justify-center">
+                      {appliedFiltersCount === 0 ? <CheckIcon className="size-4" weight="bold" /> : null}
+                    </span>
+                    All Tags
+                  </button>
+                )}
+                {visibleTags.length === 0 && (
+                  <p className="px-2 py-3 text-center text-sm text-gray-500">No tags found.</p>
+                )}
+                {visibleTags.map((tag) => {
+                  const isSelected = filters[tag]
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => {
+                        setFilters({
+                          ...filters,
+                          [tag]: !filters[tag],
+                        })
+                      }}
+                      className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
+                    >
+                      <span className="flex w-4 shrink-0 items-center justify-center">
+                        {isSelected ? <CheckIcon className="size-4" weight="bold" /> : null}
+                      </span>
+                      {tag}
+                    </button>
+                  )
+                })}
+              </div>
+            </PopoverContent>
+          </Popover>
           {appliedFiltersCount > 0 && (
             <Button
               variant="secondary"
               className="hover:border-cta-secondary-selected-border cursor-pointer h-9 !p-2.5 transition-all duration-200"
               onClick={resetFilters}
             >
-              {appliedFiltersCount} {appliedFiltersCount > 1 ? 'Filters' : 'Filter'} Applied
+              Clear
               <XIcon size={16} />
             </Button>
           )}

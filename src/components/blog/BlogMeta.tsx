@@ -71,12 +71,11 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
           />
         </div>
         <div className="my-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-col gap-3 md:flex-row">
+          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2">
             {(post.publishedAt || post.createdAt) && post.author && (
               <BlogAuthor author={post.author} datePublished={post.publishedAt || post.createdAt} />
             )}
-            <div className="z-10 flex items-center gap-2">
-              <span className="text-sm text-gray-400 md:hidden">{readingTime(post)}</span>
+            <div className="z-10 flex shrink-0 items-center gap-2">
               <div className="size-0.5 bg-white" />
               <Button
                 variant="link"
@@ -92,7 +91,7 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
             post={post}
             position="start"
             displayReadTime
-            readTimeClassName="hidden text-sm md:block"
+            readTimeClassName="hidden text-sm lg:block"
           />
         </div>
         <h1 className="text-lg font-semibold md:text-2xl lg:text-4xl">{post.title}</h1>

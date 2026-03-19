@@ -27,7 +27,7 @@ export function BlogCard({ post }: BlogCardProps) {
 
   return (
     <Link href={`/${post.slug}`} className="transition-colors duration-200">
-      <article className="group flex min-w-[331px] flex-col gap-y-3">
+      <article className="group flex min-w-0 max-w-full flex-col gap-y-3">
         <div className="relative aspect-[331/240] w-full overflow-hidden rounded-md transition-transform duration-300">
           <Image
             src={featuredImageUrl}

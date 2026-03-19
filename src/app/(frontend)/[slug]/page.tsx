@@ -6,6 +6,7 @@ import { ContentSection } from '@/components/blog/ContentSection'
 import { RelatedNews } from '@/components/blog/RelatedNews'
 import { Introduction } from '@/components/blog/Introduction'
 import { BlogMeta } from '@/components/blog/BlogMeta'
+import { BlogStickyHeader } from '@/components/blog/BlogStickyHeader'
 import type { Post, Category, Media } from '@/payload-types'
 
 interface BlogPostPageProps {
@@ -139,6 +140,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      <BlogStickyHeader />
       <Introduction />
       <BlogMeta post={post} />
       <ContentSection post={post} />
