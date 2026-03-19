@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = process.env.NEXT_PUBLIC_SITE_URL?.includes('blog.tenki.cloud')
+  const isProduction = process.env.NEXT_PUBLIC_SITE_URL?.includes('tenki.cloud')
 
   if (!isProduction) {
     return {
@@ -11,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
 
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: 'https://blog.tenki.cloud/sitemap.xml',
+    sitemap: 'https://tenki.cloud/blog/sitemap.xml',
   }
 }

@@ -4,7 +4,7 @@ import config from '@/payload.config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
-  const baseUrl = 'https://blog.tenki.cloud'
+  const baseUrl = 'https://tenki.cloud/blog'
 
   const [posts, categories, tags] = await Promise.all([
     payload.find({

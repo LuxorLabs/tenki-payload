@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   const title = post.seo?.metaTitle || post.title
   const description = post.seo?.metaDescription || post.excerpt
   const image = ogImage?.url || featuredImage?.url
-  const url = `https://blog.tenki.cloud/${post.slug}`
+  const url = `https://tenki.cloud/blog/${post.slug}`
 
   return {
     title,
