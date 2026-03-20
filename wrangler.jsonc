@@ -18,6 +18,10 @@
 		{
 			"pattern": "tenki.cloud/blog*",
 			"zone_name": "tenki.cloud"
+		},
+		{
+			"pattern": "www.tenki.cloud/blog*",
+			"zone_name": "tenki.cloud"
 		}
 	],
 	"vars": {
