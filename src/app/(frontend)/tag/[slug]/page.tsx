@@ -58,7 +58,7 @@ export default async function TagPage({ params }: TagPageProps) {
 
   const { docs: posts } = await payload.find({
     collection: 'posts',
-    depth: 1,
+    depth: 2,
     where: {
       tags: { contains: tag.id },
       status: { equals: 'published' },

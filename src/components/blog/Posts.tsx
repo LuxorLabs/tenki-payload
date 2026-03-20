@@ -203,7 +203,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
               <Button
                 variant="secondary"
                 className="h-9 w-9 cursor-pointer !p-0"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                 disabled={currentPage === 1}
               >
                 <CaretLeftIcon size={16} />
@@ -213,7 +213,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                   key={page}
                   variant={page === currentPage ? 'default' : 'secondary'}
                   className="h-9 w-9 cursor-pointer !p-0"
-                  onClick={() => setCurrentPage(page)}
+                  onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                 >
                   {page}
                 </Button>
@@ -221,7 +221,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
               <Button
                 variant="secondary"
                 className="h-9 w-9 cursor-pointer !p-0"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                 disabled={currentPage === totalPages}
               >
                 <CaretRightIcon size={16} />

@@ -58,7 +58,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const { docs: posts } = await payload.find({
     collection: 'posts',
-    depth: 1,
+    depth: 2,
     where: {
       category: { equals: category.id },
       status: { equals: 'published' },
