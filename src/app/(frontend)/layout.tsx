@@ -18,7 +18,7 @@ const geist = Geist({
 const OG_IMAGE = 'https://storage.googleapis.com/tenki-cloud-assets/web/tenki-open-graph.webp'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://blog.tenki.cloud'),
+  metadataBase: new URL('https://tenki.cloud/blog'),
   title: {
     default: 'Tenki Blog',
     template: '%s | Tenki Blog',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tenki Blog',
     description: 'Product updates, guides, tutorials, and tips from the Tenki team.',
-    url: 'https://blog.tenki.cloud',
+    url: 'https://tenki.cloud/blog',
     type: 'website',
     siteName: 'Tenki',
     locale: 'en_US',
