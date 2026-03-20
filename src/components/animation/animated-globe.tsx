@@ -147,7 +147,7 @@ export const Globe = ({ globeConfig }: WorldProps) => {
   return <group ref={groupRef} />
 }
 
-export function WebGLRendererConfig() {
+export function WebGLRendererConfig(): null {
   const { gl, size } = useThree()
 
   useEffect(() => {
