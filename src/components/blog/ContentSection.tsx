@@ -94,7 +94,7 @@ export const ContentSection = ({ post }: ContentProps) => {
                       ? authorAvatar.url.startsWith('http')
                         ? authorAvatar.url
                         : authorAvatar.url
-                      : '/images/favicon-default.png'
+                      : '/blog/images/favicon-default.png'
                   }
                   fill
                   alt={author.name}
@@ -144,7 +144,7 @@ export const ContentSection = ({ post }: ContentProps) => {
                     variant: 'secondary',
                     size: 'icon',
                   }),
-                  'hover:border-static-secondary'
+                  'hover:border-static-secondary',
                 )}
               >
                 <XLogoIcon size={20} />
@@ -157,7 +157,7 @@ export const ContentSection = ({ post }: ContentProps) => {
                     variant: 'secondary',
                     size: 'icon',
                   }),
-                  'hover:border-static-secondary'
+                  'hover:border-static-secondary',
                 )}
               >
                 <RedditLogoIcon weight="fill" size={20} />
@@ -170,7 +170,7 @@ export const ContentSection = ({ post }: ContentProps) => {
                     variant: 'secondary',
                     size: 'icon',
                   }),
-                  'hover:border-static-secondary'
+                  'hover:border-static-secondary',
                 )}
               >
                 <LinkedinWhiteLogo />
@@ -186,10 +186,7 @@ export const ContentSection = ({ post }: ContentProps) => {
         </div>
       )}
 
-      <section
-        id="blog-post"
-        className="h-full py-0 lg:col-span-2 lg:py-3"
-      >
+      <section id="blog-post" className="h-full py-0 lg:col-span-2 lg:py-3">
         <RichText content={post.content} />
       </section>
     </section>

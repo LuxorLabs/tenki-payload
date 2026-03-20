@@ -34,7 +34,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     meta: {
-      icons: [{ url: '/images/favicon-default.png' }],
+      icons: [{ url: '/blog/images/favicon-default.png' }],
       titleSuffix: '- Tenki',
     },
     components: {

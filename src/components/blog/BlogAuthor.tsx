@@ -21,7 +21,7 @@ export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
   }
 
   // Get author avatar URL
-  let avatarUrl = '/images/favicon-default.png'
+  let avatarUrl = '/blog/images/favicon-default.png'
   if (author.avatar) {
     const avatar = typeof author.avatar === 'number' ? null : (author.avatar as Media)
     if (avatar?.url) {
@@ -41,7 +41,9 @@ export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
       </div>
       <span className="shrink-0 whitespace-nowrap">{author.name}</span>
       <span className="size-0.5 shrink-0 bg-white" />
-      <span className="shrink-0 whitespace-nowrap">{format(new Date(datePublished), 'MMM dd, yyyy')}</span>
+      <span className="shrink-0 whitespace-nowrap">
+        {format(new Date(datePublished), 'MMM dd, yyyy')}
+      </span>
     </div>
   )
 }
