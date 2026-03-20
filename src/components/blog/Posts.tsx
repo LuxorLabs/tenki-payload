@@ -21,7 +21,7 @@ type PostsProps = {
 
 export const Posts = ({ posts, tags }: PostsProps) => {
   const tagNames = useMemo(() => {
-    return tags.map((tag) => tag.name).filter(Boolean) as string[]
+    return (tags.map((tag) => tag.name).filter(Boolean) as string[]).sort((a, b) => a.localeCompare(b))
   }, [tags])
 
   const [dateRange, setDateRange] = useState<DateRange>()
@@ -135,7 +135,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                   />
                 </div>
               </div>
-              <div className="max-h-64 overflow-y-auto p-2">
+              <div className="max-h-64 overflow-y-auto overscroll-contain p-2" onWheel={(e) => e.stopPropagation()}>
                 {!tagSearch.trim() && (
                   <button
                     onClick={resetFilters}
