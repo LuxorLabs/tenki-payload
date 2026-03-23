@@ -3,7 +3,19 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArchiveIcon, BriefcaseIcon, BuildingsIcon, CaretDownIcon, ChartBarIcon, DesktopTowerIcon, HardDrivesIcon, ListIcon, LockIcon, SparkleIcon, XIcon } from '@phosphor-icons/react'
+import {
+  ArchiveIcon,
+  BriefcaseIcon,
+  BuildingsIcon,
+  CaretDownIcon,
+  ChartBarIcon,
+  DesktopTowerIcon,
+  HardDrivesIcon,
+  ListIcon,
+  LockIcon,
+  SparkleIcon,
+  XIcon,
+} from '@phosphor-icons/react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -24,7 +36,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Features', href: '/features', submenu: [
+  { label: 'Pricing', href: '/pricing' },
+  {
+    label: 'Features',
+    href: '/features',
+    submenu: [
       {
         label: 'x64 Runners',
         href: '/features/linux',
@@ -54,42 +70,8 @@ const navItems: NavItem[] = [
         icon: <HardDrivesIcon weight="fill" size={16} />,
         soon: true,
       },
-    ] },
-  {
-    label: 'Solutions',
-    href: '/solutions',
-    submenu: [
-      {
-        label: 'Enterprise',
-        href: '/solutions/enterprise',
-        image: `${TENKI_STORAGE_BASE}/nav-enterprise.png`,
-        icon: <BuildingsIcon weight="fill" size={16} />,
-        soon: false,
-      },
-      {
-        label: 'Open Source Projects',
-        href: '/solutions/open-source',
-        image: `${TENKI_STORAGE_BASE}/nav-open-sources.png`,
-        icon: <ArchiveIcon weight="fill" size={16} />,
-        soon: false,
-      },
-      {
-        label: 'Solo Devs',
-        href: '/solutions/solo-devs',
-        image: `${TENKI_STORAGE_BASE}/nav-solo-devs.png`,
-        icon: <DesktopTowerIcon weight="fill" size={16} />,
-        soon: false,
-      },
-      {
-        label: 'Small & Mid-sized',
-        href: '/solutions/smb',
-        image: `${TENKI_STORAGE_BASE}/nav-smb.png`,
-        icon: <ChartBarIcon weight="fill" size={16} />,
-        soon: false,
-      },
     ],
   },
-  { label: 'Pricing', href: '/pricing' },
   { label: 'Docs', href: '/docs' },
   {
     label: 'Company',
@@ -149,11 +131,14 @@ export const Navigation = () => {
   const isNavItemActive = (currentPath: string, href: string) =>
     currentPath === href || (href !== '/' && currentPath.startsWith(href))
 
-  const isSubItemActive = (currentPath: string, href: string) => currentPath === href || currentPath.startsWith(href)
+  const isSubItemActive = (currentPath: string, href: string) =>
+    currentPath === href || currentPath.startsWith(href)
   const toTenkiUrl = (href: string) => (href.startsWith('http') ? href : `${TENKI_WEB_BASE}${href}`)
 
   const toggleMobileSubmenu = (idx: number) => {
-    setOpenMobileSubmenus((prev) => (prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]))
+    setOpenMobileSubmenus((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
+    )
   }
 
   return (
@@ -163,7 +148,9 @@ export const Navigation = () => {
         <motion.nav
           className={cn(
             'fixed z-[999] w-full max-w-[1200px] border-[#1D232A] transition-all duration-300 ease-in-out xl:rounded-xl',
-            scrolled && !isSheetOpen && 'mt-3.5 w-[calc(100%-8px)] rounded-xl border md:w-[calc(100%-16px)] lg:w-full xl:mx-auto xl:mt-6 xl:max-w-[1200px]',
+            scrolled &&
+              !isSheetOpen &&
+              'mt-3.5 w-[calc(100%-8px)] rounded-xl border md:w-[calc(100%-16px)] lg:w-full xl:mx-auto xl:mt-6 xl:max-w-[1200px]',
           )}
           onMouseLeave={() => {
             setOpenSubmenu(null)
@@ -178,7 +165,8 @@ export const Navigation = () => {
             className={cn(
               'relative mx-auto flex items-center justify-between p-3 transition-colors duration-300 md:p-4 lg:gap-0',
               'lg:px-10 xl:mt-0 xl:rounded-lg xl:border-0 xl:px-4 xl:backdrop-blur-none',
-              isSheetOpen && 'border-b-0.5 mx-2 mt-3.5 rounded-t-lg border border-white/8 px-2 md:px-4',
+              isSheetOpen &&
+                'border-b-0.5 mx-2 mt-3.5 rounded-t-lg border border-white/8 px-2 md:px-4',
             )}
           >
             <div className="flex items-center justify-between lg:min-w-44">
@@ -322,12 +310,17 @@ export const Navigation = () => {
                             <li
                               className={cn(
                                 'text-static-secondary flex cursor-pointer items-center justify-between px-3 py-4 text-sm',
-                                item.href && currentPath.includes(item.href) && 'text-static-primary font-bold',
+                                item.href &&
+                                  currentPath.includes(item.href) &&
+                                  'text-static-primary font-bold',
                               )}
                               onClick={() => toggleMobileSubmenu(idx)}
                             >
                               <span>{item.label}</span>
-                              <CaretDownIcon size={16} className={cn('transition-transform', isOpen && 'rotate-180')} />
+                              <CaretDownIcon
+                                size={16}
+                                className={cn('transition-transform', isOpen && 'rotate-180')}
+                              />
                             </li>
                           ) : (
                             <li>
