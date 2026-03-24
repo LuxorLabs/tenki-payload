@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { Posts } from '@/components/blog/Posts'
 import { HeroSection } from '@/components/blog/HeroSection'
+import { calculateReadingTime } from '@/lib/utils'
 import type { Post, Tag } from '@/payload-types'
 
 export const metadata = {
@@ -28,7 +29,22 @@ export default async function BlogPage() {
     overrideAccess: true,
   })
 
-  const posts = postsResponse.docs as Post[]
+  // Pre-calculate reading time server-side and strip heavy content/seo fields
+  // to reduce the RSC payload sent to the client
+  const posts = postsResponse.docs.map((doc) => {
+    const readingTime = doc.readingTime || (() => {
+      const extractText = (node: any): string => {
+        if (node?.text) return node.text
+        if (node?.children) return node.children.map(extractText).join(' ')
+        return ''
+      }
+      const text = doc.content?.root?.children?.map(extractText).join(' ') || ''
+      return calculateReadingTime(text)
+    })()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { content, seo, excerpt, category, ...rest } = doc
+    return { ...rest, readingTime, content: undefined } as unknown as Post
+  })
 
   // Extract unique tags from published posts only
   const tagsMap = new Map<number, Tag>()
