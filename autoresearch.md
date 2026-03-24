@@ -53,8 +53,28 @@ Reduce the total gzipped client-side JavaScript bundle size of this Next.js + Pa
 
 ## What's Been Tried
 
-(none yet)
+- **Run #6**: Simplify globe.json (precision + strip) — **KEPT: 1,858,622 → 1,732,495 (6.8%)**
+- **Run #8**: Globe.json 0dp precision — **KEPT: → 1,712,980 (1.1%)**
+- **Run #9**: Deduplicate consecutive coords — **KEPT: → 1,711,899 (0.1%)**
+- **Run #15**: Footer + Logo → server components — **KEPT: → 1,690,636 (1.2%)**
+- **Run #16**: BlogCard + StatusTag → server components — **KEPT: → 1,686,976 (0.2%)**
+- Runs #2-5,7,10-14,17: Various attempts that were discarded (see Dead Ends)
+
+## Current Best
+
+- **Value**: 1,686,976 bytes (1,647.4 KB gzipped)
+- **Total bundle improvement**: 171,646 bytes (9.2%)
+
+## Loading Performance Improvements (non-bundle)
+
+- **Run #18**: BlogMeta featured image priority={true} (fixes LCP), nav-submenu images lazy
+- **Run #20**: Strip content/seo/excerpt from home page RSC payload (reduces RSC transfer)
 
 ## Dead Ends
 
-(none yet)
+- Tree-shaken dependency removal (date-fns, lucide-react) has no effect
+- optimizePackageImports — no effect, Next.js already optimizes
+- Dynamic imports don't reduce total JS, just rearrange chunks
+- Direct module imports vs barrel exports — no difference
+- Webpack optimization flags — all already enabled
+- Removing motion from frontend — only 4.7 KB gain, loses layout animation
