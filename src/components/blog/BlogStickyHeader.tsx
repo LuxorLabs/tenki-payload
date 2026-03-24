@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export const BlogStickyHeader = () => {
+  const router = useRouter()
   const [visible, setVisible] = useState(false)
   const [navHeight, setNavHeight] = useState(0)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -52,15 +53,16 @@ export const BlogStickyHeader = () => {
       >
         <div className="border-b border-white/10 bg-[#000A15] backdrop-blur-md">
           <div className="mx-auto flex max-w-[1000px] items-center px-6 py-2.5 md:px-12 xl:px-0">
-            <Link
-              href="/"
+            <button
+              type="button"
+              onClick={() => { window.history.length > 1 ? router.back() : router.push('/') }}
               className="inline-flex items-center gap-1.5 text-sm text-gray-400 transition-colors hover:text-white"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Back to Blog
-            </Link>
+            </button>
           </div>
         </div>
       </div>

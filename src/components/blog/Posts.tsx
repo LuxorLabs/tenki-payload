@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { CaretDownIcon, CaretLeftIcon, CaretRightIcon, CheckIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { isAfter, isBefore, isEqual } from 'date-fns'
 import { BlogCard } from './BlogCard'
@@ -20,12 +21,19 @@ type PostsProps = {
 }
 
 export const Posts = ({ posts, tags }: PostsProps) => {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
   const tagNames = useMemo(() => {
     return (tags.map((tag) => tag.name).filter(Boolean) as string[]).sort((a, b) => a.localeCompare(b))
   }, [tags])
 
   const [dateRange, setDateRange] = useState<DateRange>()
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(() => {
+    const pageParam = searchParams.get('page')
+    const parsed = pageParam ? parseInt(pageParam, 10) : 1
+    return parsed >= 1 ? parsed : 1
+  })
   const [filters, setFilters] = useState<Record<string, boolean>>(
     () => Object.fromEntries(tagNames.map((name) => [name, false])) as Record<string, boolean>,
   )
@@ -81,9 +89,34 @@ export const Posts = ({ posts, tags }: PostsProps) => {
     return filteredData
   }, [posts, debouncedFilters, debouncedDateRange])
 
-  // Reset to page 1 when filters change
+  const setPage = useCallback((page: number) => {
+    setCurrentPage(page)
+    const params = new URLSearchParams(searchParams.toString())
+    if (page <= 1) {
+      params.delete('page')
+    } else {
+      params.set('page', String(page))
+    }
+    const query = params.toString()
+    router.replace(query ? `?${query}` : '/', { scroll: false })
+  }, [searchParams, router])
+
+  // Sync URL changes (e.g. browser back/forward) to state
   useEffect(() => {
-    setCurrentPage(1)
+    const pageParam = searchParams.get('page')
+    const parsed = pageParam ? parseInt(pageParam, 10) : 1
+    const page = parsed >= 1 ? parsed : 1
+    setCurrentPage(page)
+  }, [searchParams])
+
+  // Reset to page 1 when filters change (skip initial mount to preserve URL page)
+  const isInitialMount = useRef(true)
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
+    setPage(1)
   }, [debouncedFilters, debouncedDateRange])
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE)
@@ -203,7 +236,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
               <Button
                 variant="secondary"
                 className="h-9 w-9 cursor-pointer !p-0"
-                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                onClick={() => { setPage(Math.max(1, currentPage - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                 disabled={currentPage === 1}
               >
                 <CaretLeftIcon size={16} />
@@ -213,7 +246,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                   key={page}
                   variant={page === currentPage ? 'default' : 'secondary'}
                   className="h-9 w-9 cursor-pointer !p-0"
-                  onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                  onClick={() => { setPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                 >
                   {page}
                 </Button>
@@ -221,7 +254,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
               <Button
                 variant="secondary"
                 className="h-9 w-9 cursor-pointer !p-0"
-                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                onClick={() => { setPage(Math.min(totalPages, currentPage + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                 disabled={currentPage === totalPages}
               >
                 <CaretRightIcon size={16} />
