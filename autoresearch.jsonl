@@ -1,2 +1,0 @@
-{"type":"config","name":"reduce-client-bundle-size","metric_name":"total_gzipped_client_js","metric_unit":"bytes","direction":"lower","timestamp":"2026-03-24T11:50:00Z"}
-{"run":1,"metric":1858622,"status":"keep","description":"baseline","timestamp":"2026-03-24T11:50:00Z"}
