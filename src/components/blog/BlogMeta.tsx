@@ -66,7 +66,8 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
             alt={featuredImage?.alt || post.title}
             fill
             className="object-cover"
-            loading="lazy"
+            priority
+            sizes="(max-width: 1000px) 100vw, 1000px"
             style={{ borderRadius: '6px' }}
           />
         </div>
