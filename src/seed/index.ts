@@ -5,7 +5,7 @@
  *   pnpm seed
  *
  * This script uses the Payload local API to create:
- *   1. Media (all using src/seed/placeholder.png)
+ *   1. Media (1x1 placeholder to satisfy Payload upload; images render from CDN)
  *   2. Authors (with avatar references)
  *   3. Categories
  *   4. Tags
@@ -15,9 +15,6 @@
  * (matched by slug, email, or filename).
  */
 
-import { readFileSync } from 'fs'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
 import { getPayload } from 'payload'
 import config from '../payload.config'
 import { authors, categories, tags, featuredImages, posts } from './data'
@@ -27,8 +24,15 @@ import {
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const PLACEHOLDER_IMAGE = readFileSync(join(__dirname, 'placeholder.png'))
+// 1x1 transparent PNG — satisfies Payload's upload requirement for media records.
+// Actual images are served from the production R2 CDN via R2_PUBLIC_URL.
+const PLACEHOLDER_PNG = Buffer.from(new Uint8Array([
+  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49, 0x48, 0x44,
+  0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x06, 0x00, 0x00, 0x00, 0x1f,
+  0x15, 0xc4, 0x89, 0x00, 0x00, 0x00, 0x0a, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9c, 0x62, 0x00,
+  0x00, 0x00, 0x02, 0x00, 0x01, 0xe2, 0x21, 0xbc, 0x33, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45,
+  0x4e, 0x44, 0xae, 0x42, 0x60, 0x82,
+]))
 
 // ─── Main ───────────────────────────────────────────────────────────────────
 
@@ -73,10 +77,10 @@ async function seed() {
 
     try {
       const file = {
-        data: PLACEHOLDER_IMAGE,
+        data: PLACEHOLDER_PNG,
         mimetype: 'image/png',
         name: img.filename,
-        size: PLACEHOLDER_IMAGE.length,
+        size: PLACEHOLDER_PNG.length,
       }
 
       const created = await payload.create({
