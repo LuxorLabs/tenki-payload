@@ -185,7 +185,7 @@ export function markdownToLexical(markdown: string): {
     version: number
     children: LexicalNode[]
     direction: 'ltr' | null
-    format: string
+    format: '' | 'left' | 'start' | 'center' | 'right' | 'end' | 'justify'
     indent: number
   }
 } {

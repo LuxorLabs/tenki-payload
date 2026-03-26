@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { Posts } from '@/components/blog/Posts'
@@ -50,7 +50,9 @@ export default async function BlogPage() {
     <>
       <HeroSection />
       <section>
-        <Posts posts={posts} tags={tags} />
+        <Suspense>
+          <Posts posts={posts} tags={tags} />
+        </Suspense>
       </section>
     </>
   )
