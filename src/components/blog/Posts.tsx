@@ -109,6 +109,18 @@ export const Posts = ({ posts, tags }: PostsProps) => {
     setCurrentPage(page)
   }, [searchParams])
 
+  // Persist current page so "Back to Blog" can restore it
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (currentPage > 1) {
+      params.set('page', String(currentPage))
+    } else {
+      params.delete('page')
+    }
+    const query = params.toString()
+    sessionStorage.setItem('blogListingUrl', query ? `/?${query}` : '/')
+  }, [currentPage, searchParams])
+
   // Reset to page 1 when filters change (skip initial mount to preserve URL page)
   const isInitialMount = useRef(true)
   useEffect(() => {

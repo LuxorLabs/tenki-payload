@@ -26,16 +26,7 @@ export function BlogCard({ post }: BlogCardProps) {
   }
 
   return (
-    <Link
-      href={`/${post.slug}`}
-      className="transition-colors duration-200"
-      onClick={() => {
-        // Only save listing URL when navigating from the blog listing page (not from a post page)
-        if (window.location.pathname === '/') {
-          sessionStorage.setItem('blogListingUrl', window.location.search || '/')
-        }
-      }}
-    >
+    <Link href={`/${post.slug}`} className="transition-colors duration-200">
       <article className="group flex min-w-0 max-w-full flex-col gap-y-3">
         <div className="relative aspect-[331/240] w-full overflow-hidden rounded-md transition-transform duration-300">
           <Image

@@ -8,7 +8,7 @@ export function useBackToBlogUrl(): string {
   useEffect(() => {
     const stored = sessionStorage.getItem(STORAGE_KEY)
     if (stored) {
-      setUrl(stored === '/' ? '/' : `/${stored}`)
+      setUrl(stored)
     }
   }, [])
 
