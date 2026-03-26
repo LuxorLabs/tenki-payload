@@ -1,10 +1,11 @@
-import React from 'react'
+import { cache } from 'react'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { BlogCard } from '@/components/blog/BlogCard'
 import { ArrowLeft } from 'lucide-react'
+import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
 import type { Post, Tag } from '@/payload-types'
 
 export const revalidate = 60
@@ -15,7 +16,7 @@ interface TagPageProps {
   }>
 }
 
-async function getTag(slug: string) {
+const getTag = cache(async (slug: string) => {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -28,7 +29,7 @@ async function getTag(slug: string) {
   })
 
   return docs[0] as Tag | undefined
-}
+})
 
 export async function generateMetadata({ params }: TagPageProps) {
   const { slug } = await params
@@ -66,6 +67,8 @@ export default async function TagPage({ params }: TagPageProps) {
     sort: '-publishedAt',
     limit: 50,
     overrideAccess: true,
+    select: BLOG_CARD_SELECT,
+    populate: BLOG_CARD_POPULATE,
   })
 
   return (
