@@ -2,6 +2,19 @@ import type { CollectionConfig } from 'payload'
 import { lexicalEditor, EXPERIMENTAL_TableFeature, BlocksFeature } from '@payloadcms/richtext-lexical'
 import { CodeBlock } from '@payloadcms/richtext-lexical'
 
+function extractText(node: any): string {
+  if (node.text) return node.text
+  if (node.children) return node.children.map(extractText).join(' ')
+  return ''
+}
+
+function computeReadingTime(content: any): number {
+  if (!content?.root?.children) return 0
+  const text = content.root.children.map(extractText).join(' ')
+  const words = text.trim().split(/\s+/).length
+  return Math.max(1, Math.ceil(words / 200))
+}
+
 export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
@@ -34,6 +47,16 @@ export const Posts: CollectionConfig = {
       if (!user) return false
       return user.role === 'super-admin' || user.role === 'admin'
     },
+  },
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        if (data?.content) {
+          data.readingTime = computeReadingTime(data.content)
+        }
+        return data
+      },
+    ],
   },
   versions: {
     drafts: {

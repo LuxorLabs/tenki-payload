@@ -4,6 +4,7 @@ import config from '@/payload.config'
 import { Posts } from '@/components/blog/Posts'
 import { HeroSection } from '@/components/blog/HeroSection'
 import type { Post, Tag } from '@/payload-types'
+import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
 
 export const metadata = {
   title: 'Tenki Blog | Product Updates, Guides, Tutorials, & Tips',
@@ -26,6 +27,8 @@ export default async function BlogPage() {
     sort: '-publishedAt',
     limit: 100,
     overrideAccess: true,
+    select: BLOG_CARD_SELECT,
+    populate: BLOG_CARD_POPULATE,
   })
 
   const posts = postsResponse.docs as Post[]

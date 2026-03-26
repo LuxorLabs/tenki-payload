@@ -5,36 +5,10 @@ import Image from 'next/image'
 import { BlogAuthor } from './BlogAuthor'
 import { BlogTag } from './BlogTag'
 import { Button } from '@/components/ui/button'
-import { calculateReadingTime } from '@/lib/utils'
 import type { Post, Media } from '@/payload-types'
 
 type BlogMetaProps = {
   post: Post
-}
-
-function getContentText(content: any): string {
-  if (!content?.root?.children) return ''
-
-  const extractText = (node: any): string => {
-    if (node.text) return node.text
-    if (node.children) {
-      return node.children.map(extractText).join(' ')
-    }
-    return ''
-  }
-
-  return content.root.children.map(extractText).join(' ')
-}
-
-function readingTime(post: Post): string {
-  // Use stored readingTime if available, otherwise calculate from content
-  if (post.readingTime && post.readingTime > 0) {
-    return `${post.readingTime} min read`
-  }
-
-  const contentText = getContentText(post.content)
-  const minutes = calculateReadingTime(contentText)
-  return `${minutes} min read`
 }
 
 const BLOG_DEFAULT_IMG = '/images/tenki-blog.png'

@@ -1,4 +1,4 @@
-import React from 'react'
+import { cache } from 'react'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { notFound } from 'next/navigation'
@@ -7,6 +7,7 @@ import { RelatedNews } from '@/components/blog/RelatedNews'
 import { Introduction } from '@/components/blog/Introduction'
 import { BlogMeta } from '@/components/blog/BlogMeta'
 import { BlogStickyHeader } from '@/components/blog/BlogStickyHeader'
+import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
 import type { Post, Category, Media } from '@/payload-types'
 
 interface BlogPostPageProps {
@@ -18,7 +19,7 @@ interface BlogPostPageProps {
 export const dynamic = 'force-static'
 export const revalidate = 60
 
-async function getPost(slug: string) {
+const getPost = cache(async (slug: string) => {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -33,7 +34,7 @@ async function getPost(slug: string) {
   })
 
   return docs[0] as Post | undefined
-}
+})
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params
@@ -134,6 +135,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     limit: 4,
     depth: 2,
     overrideAccess: true,
+    select: BLOG_CARD_SELECT,
+    populate: BLOG_CARD_POPULATE,
   })
 
   const relatedPosts = relatedPostsQuery.docs as Post[]

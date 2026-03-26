@@ -12,14 +12,3 @@ export function formatDate(date: string | Date): string {
     year: 'numeric',
   })
 }
-
-export function calculateReadingTime(text: string): number {
-  const wordsPerMinute = 200
-  const words = text.trim().split(/\s+/).length
-  return Math.ceil(words / wordsPerMinute)
-}
-
-export function generateExcerpt(text: string, maxLength: number = 160): string {
-  if (text.length <= maxLength) return text
-  return text.slice(0, maxLength).trim() + '...'
-}
