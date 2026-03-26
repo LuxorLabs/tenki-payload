@@ -29,7 +29,7 @@ const getPost = cache(async (slug: string) => {
       status: { equals: 'published' },
     },
     limit: 1,
-    depth: 2,
+    depth: 1,
     overrideAccess: true,
   })
 
@@ -133,7 +133,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       ],
     },
     limit: 4,
-    depth: 2,
+    depth: 1,
     overrideAccess: true,
     select: BLOG_CARD_SELECT,
     populate: BLOG_CARD_POPULATE,

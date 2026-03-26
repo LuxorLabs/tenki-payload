@@ -36,39 +36,5 @@ export const useActiveSection = (headingIds: string[]) => {
     }
   }, [headingIds])
 
-  useEffect(() => {
-    if (headingIds.length === 0) return
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight * 0.3
-
-      let currentActiveId = ''
-
-      for (const id of headingIds) {
-        const element = document.getElementById(id)
-        if (element) {
-          const elementTop = element.offsetTop
-          if (scrollPosition >= elementTop) {
-            currentActiveId = id
-          } else {
-            break
-          }
-        }
-      }
-
-      if (currentActiveId) {
-        setActiveId(currentActiveId)
-      }
-    }
-
-    handleScroll()
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [headingIds])
-
   return activeId
 }
