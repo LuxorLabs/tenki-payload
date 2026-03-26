@@ -51,7 +51,7 @@ export const Posts: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ data }) => {
-        if (data?.content && !data.readingTime) {
+        if (data?.content) {
           data.readingTime = computeReadingTime(data.content)
         }
         return data

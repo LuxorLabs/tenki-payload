@@ -20,6 +20,7 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview --env=$CLOUDFLARE_ENV",
     "seed": "cross-env NODE_ENV=development NODE_OPTIONS=--no-deprecation tsx --env-file=.env src/seed/index.ts",
+    "backfill-reading-time": "cross-env NODE_ENV=development NODE_OPTIONS=--no-deprecation tsx --env-file=.env src/seed/backfill-reading-time.ts",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
