@@ -8,7 +8,7 @@ import { ArrowLeft } from 'lucide-react'
 import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
 import type { Post, Category } from '@/payload-types'
 
-export const revalidate = 60
+export const revalidate = 300
 
 interface CategoryPageProps {
   params: Promise<{

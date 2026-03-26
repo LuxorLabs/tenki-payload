@@ -17,7 +17,7 @@ interface BlogPostPageProps {
 }
 
 export const dynamic = 'force-static'
-export const revalidate = 60
+export const revalidate = 3600
 
 const getPost = cache(async (slug: string) => {
   const payload = await getPayload({ config })

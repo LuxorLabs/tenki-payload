@@ -11,7 +11,7 @@ export const metadata = {
   description: 'Product updates, guides, tutorials, and tips from the Tenki team.',
 }
 
-export const revalidate = 60
+export const revalidate = 300
 
 export default async function BlogPage() {
   const payload = await getPayload({ config })

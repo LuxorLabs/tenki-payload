@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 import { lexicalEditor, EXPERIMENTAL_TableFeature, BlocksFeature } from '@payloadcms/richtext-lexical'
 import { CodeBlock } from '@payloadcms/richtext-lexical'
 
@@ -55,6 +56,22 @@ export const Posts: CollectionConfig = {
           data.readingTime = computeReadingTime(data.content)
         }
         return data
+      },
+    ],
+    afterChange: [
+      ({ doc }) => {
+        if (doc.status === 'published' && doc.slug) {
+          revalidatePath(`/${doc.slug}`)
+          revalidatePath('/')
+        }
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        if (doc.slug) {
+          revalidatePath(`/${doc.slug}`)
+          revalidatePath('/')
+        }
       },
     ],
   },
