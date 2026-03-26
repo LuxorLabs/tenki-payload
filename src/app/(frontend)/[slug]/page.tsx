@@ -29,8 +29,12 @@ const getPost = cache(async (slug: string) => {
       status: { equals: 'published' },
     },
     limit: 1,
-    depth: 2,
+    depth: 1,
     overrideAccess: true,
+    populate: {
+      authors: { avatar: true },
+      media: { url: true, alt: true, filename: true },
+    },
   })
 
   return docs[0] as Post | undefined
