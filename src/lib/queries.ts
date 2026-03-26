@@ -14,7 +14,7 @@ export const BLOG_CARD_SELECT = {
 
 /** Fields to include from populated relationships in BlogCard context */
 export const BLOG_CARD_POPULATE = {
-  media: { url: true, alt: true },
+  media: { url: true, filename: true, alt: true },
   authors: { name: true, avatar: true },
   tags: { name: true },
 } satisfies PopulateType
