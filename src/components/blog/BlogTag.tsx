@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { calculateReadingTime } from '@/lib/utils'
 import type { Post, Tag } from '@/payload-types'
 
 type BlogTagProps = {
@@ -8,31 +7,6 @@ type BlogTagProps = {
   position?: 'start' | 'end'
   readTimeClassName?: string
   post: Post
-}
-
-function getContentText(content: any): string {
-  if (!content?.root?.children) return ''
-
-  const extractText = (node: any): string => {
-    if (node.text) return node.text
-    if (node.children) {
-      return node.children.map(extractText).join(' ')
-    }
-    return ''
-  }
-
-  return content.root.children.map(extractText).join(' ')
-}
-
-function readingTime(post: Post): string {
-  // Use stored readingTime if available, otherwise calculate from content
-  if (post.readingTime && post.readingTime > 0) {
-    return `${post.readingTime} min read`
-  }
-
-  const contentText = getContentText(post.content)
-  const minutes = calculateReadingTime(contentText)
-  return `${minutes} min read`
 }
 
 export const BlogTag = ({
@@ -44,8 +18,8 @@ export const BlogTag = ({
 }: BlogTagProps) => {
   const tags = post?.tags
 
-  const readTime = displayReadTime ? (
-    <span className={cn('text-static-secondary text-sm', readTimeClassName)}>{readingTime(post)}</span>
+  const readTime = displayReadTime && post.readingTime ? (
+    <span className={cn('text-static-secondary text-sm', readTimeClassName)}>{post.readingTime} min read</span>
   ) : null
 
   return tags ? (

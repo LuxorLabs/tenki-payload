@@ -26,6 +26,16 @@ export default async function BlogPage() {
     sort: '-publishedAt',
     limit: 100,
     overrideAccess: true,
+    select: {
+      title: true,
+      slug: true,
+      featuredImage: true,
+      author: true,
+      tags: true,
+      publishedAt: true,
+      readingTime: true,
+      createdAt: true,
+    },
   })
 
   const posts = postsResponse.docs as Post[]
