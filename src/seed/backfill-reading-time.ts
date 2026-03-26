@@ -24,19 +24,38 @@ function computeReadingTime(content: any): number {
 async function backfill() {
   const payload = await getPayload({ config })
 
-  const { docs: posts } = await payload.find({
+  const missingFilter = {
+    or: [
+      { readingTime: { equals: null } },
+      { readingTime: { equals: 0 } },
+    ],
+  }
+
+  // Fetch published posts
+  const { docs: published } = await payload.find({
     collection: 'posts',
-    where: {
-      or: [
-        { readingTime: { equals: null } },
-        { readingTime: { equals: 0 } },
-      ],
-    },
+    where: missingFilter,
     limit: 0,
     overrideAccess: true,
   })
 
-  console.log(`Found ${posts.length} posts missing readingTime\n`)
+  // Fetch drafts (excluded by default)
+  const { docs: drafts } = await payload.find({
+    collection: 'posts',
+    where: missingFilter,
+    limit: 0,
+    overrideAccess: true,
+    draft: true,
+  })
+
+  // Deduplicate (a draft and published version can share the same id)
+  const postsMap = new Map<number | string, typeof published[0]>()
+  for (const post of [...published, ...drafts]) {
+    postsMap.set(post.id, post)
+  }
+  const posts = Array.from(postsMap.values())
+
+  console.log(`Found ${posts.length} posts missing readingTime (${published.length} published, ${drafts.length} drafts)\n`)
 
   let updated = 0
   for (const post of posts) {
@@ -47,10 +66,11 @@ async function backfill() {
       id: post.id,
       data: { readingTime },
       overrideAccess: true,
+      draft: post._status === 'draft',
     })
 
     updated++
-    console.log(`  [updated] ${post.title} → ${readingTime} min`)
+    console.log(`  [updated] ${post.title} (${post._status ?? 'published'}) → ${readingTime} min`)
   }
 
   console.log(`\nDone. Updated ${updated} posts.`)
