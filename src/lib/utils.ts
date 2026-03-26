@@ -12,8 +12,3 @@ export function formatDate(date: string | Date): string {
     year: 'numeric',
   })
 }
-
-export function generateExcerpt(text: string, maxLength: number = 160): string {
-  if (text.length <= maxLength) return text
-  return text.slice(0, maxLength).trim() + '...'
-}

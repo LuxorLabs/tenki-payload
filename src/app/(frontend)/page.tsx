@@ -25,7 +25,7 @@ export default async function BlogPage() {
       },
     },
     sort: '-publishedAt',
-    limit: 100,
+    limit: 24,
     overrideAccess: true,
     select: BLOG_CARD_SELECT,
     populate: BLOG_CARD_POPULATE,

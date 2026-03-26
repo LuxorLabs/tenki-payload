@@ -9,7 +9,7 @@ function extractText(node: any): string {
 }
 
 function computeReadingTime(content: any): number {
-  if (!content?.root?.children) return 1
+  if (!content?.root?.children) return 0
   const text = content.root.children.map(extractText).join(' ')
   const words = text.trim().split(/\s+/).length
   return Math.max(1, Math.ceil(words / 200))
@@ -51,7 +51,7 @@ export const Posts: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ data }) => {
-        if (data?.content) {
+        if (data?.content && !data.readingTime) {
           data.readingTime = computeReadingTime(data.content)
         }
         return data
