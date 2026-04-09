@@ -1,0 +1,10 @@
+export const TENKI_STORAGE_BASE = 'https://storage.googleapis.com/tenki-cloud-assets/web'
+export const TENKI_WEB_BASE = 'https://tenki.cloud'
+export const TENKI_APP_URL = 'https://app.tenki.cloud'
+export const TENKI_LINKED_IN_URL = 'https://www.linkedin.com/company/tenki-cloud/about'
+export const TENKI_X_URL = 'https://x.com/tenkicloud'
+export const TENKI_DISCORD_URL = 'https://discord.gg/qNFaWrR6um'
+export const TENKI_UNEED_TOOL_URL = 'https://www.uneed.best/tool/tenki-cloud'
+
+export const BUILT_IN_SEATTLE_URL = 'https://www.builtinseattle.com/company/tenki-cloud'
+export const CALENDLY_URL = 'https://calendly.com/d/cq87-j8n-2yx/tenki-cloud-intro'

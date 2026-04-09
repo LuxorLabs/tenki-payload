@@ -3,10 +3,10 @@ import { Geist } from 'next/font/google'
 import '../globals.css'
 import { cn } from '@/lib/utils'
 import { ReactLenis } from '../lenis'
-import { Navigation } from '@/components/layout/Navigation'
 import { Footer } from '@/components/layout/Footer'
 
 import type { Metadata, Viewport } from 'next'
+import { Navigation } from '@/components/navigation/navigation'
 
 const geist = Geist({
   subsets: ['latin'],
