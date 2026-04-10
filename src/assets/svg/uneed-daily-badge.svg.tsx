@@ -68,5 +68,5 @@ export function UneedDailyBadge(props: React.SVGProps<SVGSVGElement>) {
         </clipPath>
       </defs>
     </svg>
-  );
+  )
 }

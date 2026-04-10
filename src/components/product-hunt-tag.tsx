@@ -17,15 +17,16 @@ type ProductHuntTagProps = {
 }
 
 export const ProductHuntTag = ({ theme = 'light', className }: ProductHuntTagProps) => {
-  const imageSrc = theme === 'dark' ? PRODUCT_HUNT_EMBED_IMAGE_DARK_URL : PRODUCT_HUNT_EMBED_IMAGE_URL
+  const imageSrc =
+    theme === 'dark' ? PRODUCT_HUNT_EMBED_IMAGE_DARK_URL : PRODUCT_HUNT_EMBED_IMAGE_URL
 
   return (
-    <section className={cn('flex min-w-xs flex-col gap-y-6 md:min-w-lg', className)}>
+    <section className={cn('flex flex-col gap-y-6 md:min-w-lg', className)}>
       <Link href={PRODUCT_HUNT_EMBED_URL} target="_blank" rel="noopener noreferrer">
         <Image
           src={imageSrc}
           alt="Tenki Cloud - GitHub Actions. 90% cheaper. 30% faster. 2-clicks migration. | Product Hunt"
-          className="h-[42px] w-[200px] lg:h-[54px] lg:w-[250px]"
+          className="h-8 w-40 md:h-[42px] lg:h-[54px] lg:w-[250px]"
           width={250}
           height={54}
         />
