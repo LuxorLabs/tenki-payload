@@ -5,17 +5,28 @@ import type { Author, Media } from '@/payload-types'
 
 type BlogAuthorProps = {
   author: number | Author
-  datePublished: string
+  datePublished?: string
+  showDate?: boolean
+  authorNameClassName?: string
 }
 
-export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
+export const BlogAuthor = ({
+  author,
+  datePublished,
+  showDate = true,
+  authorNameClassName,
+}: BlogAuthorProps) => {
   // Handle case where author might be just an ID
   if (typeof author === 'number') {
     return (
       <div className="text-static-primary flex items-center gap-1 text-sm">
         <span>Author #{author}</span>
-        <span className="size-0.5 bg-white" />
-        <span>{format(new Date(datePublished), 'MMM dd, yyyy')}</span>
+        {showDate && (
+          <>
+            <span className="size-0.5 bg-white" />
+            <span>{format(new Date(datePublished), 'MMM dd, yyyy')}</span>
+          </>
+        )}
       </div>
     )
   }
@@ -30,7 +41,7 @@ export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
   }
 
   return (
-    <div className="text-static-primary flex min-w-0 items-center gap-1 text-sm">
+    <div className="text-static-secondary flex min-w-0 items-center gap-1 text-sm">
       <div className="relative size-5 shrink-0">
         <Image
           src={avatarUrl}
@@ -39,11 +50,21 @@ export const BlogAuthor = ({ author, datePublished }: BlogAuthorProps) => {
           className="border-static-profile size-5 rounded-full border"
         />
       </div>
-      <span className="shrink-0 whitespace-nowrap">{author.name}</span>
-      <span className="size-0.5 shrink-0 bg-white" />
-      <span className="shrink-0 whitespace-nowrap">
-        {format(new Date(datePublished), 'MMM dd, yyyy')}
-      </span>
+      <span className={cn('shrink-0 whitespace-nowrap', authorNameClassName)}>{author.name}</span>
+      {author.role && (
+        <>
+          <span className="size-0.5 shrink-0 bg-white" />
+          <span className="shrink-0 whitespace-nowrap capitalize">{author.role}</span>
+        </>
+      )}
+      {showDate && (
+        <>
+          <span className="size-0.5 shrink-0 bg-white" />
+          <span className="shrink-0 whitespace-nowrap">
+            {format(new Date(datePublished), 'MMM yyyy')}
+          </span>
+        </>
+      )}
     </div>
   )
 }
