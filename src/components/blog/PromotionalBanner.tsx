@@ -47,7 +47,7 @@ export const PromotionalBanner = () => {
               )}
             >
               <Image
-                src="/images/cta-avatar.webp"
+                src={`${TENKI_STORAGE_BASE}/avatar-marina.webp`}
                 alt="Book demo for Tenki Cloud"
                 height={20}
                 width={20}

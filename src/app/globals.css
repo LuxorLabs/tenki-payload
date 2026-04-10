@@ -5,6 +5,7 @@
 @source "./src";
 
 @theme {
+  --font-geist-mono: 'Geist Mono', monospace;
   --color-primary: #d0d0d1;
   --color-primary-foreground: #000000;
   --color-muted-foreground: #a1a1aa;

@@ -9,21 +9,20 @@ import {
 
 import React from 'react'
 import NavCodeReviewerIcon from '@/assets/svg/nav-code-reviewer-icon.svg'
-import { TENKI_STORAGE_BASE } from '@/components/constants/metadata'
+import { TENKI_STORAGE_BASE, TENKI_WEB_BASE } from '@/components/constants/metadata'
 import NavAboutIcon from '@/assets/svg/nav-about-icon.svg'
 
 const navigationItems = [
   {
-    href: '/pricing',
+    href: `${TENKI_WEB_BASE}/pricing`,
     label: 'Pricing',
   },
   {
     label: 'Features',
-    href: '/features',
     submenu: [
       {
         label: 'Code Reviewer',
-        href: '/features/code-reviewer',
+        href: `${TENKI_WEB_BASE}/features/code-reviewer`,
         image: `${TENKI_STORAGE_BASE}/nav-reviewer-2.png`,
         icon: <NavCodeReviewerIcon />,
         new: true,
@@ -31,14 +30,14 @@ const navigationItems = [
       },
       {
         label: 'Runners',
-        href: '/features/runners',
+        href: `${TENKI_WEB_BASE}/features/runners`,
         image: `${TENKI_STORAGE_BASE}/nav-runners.png`,
         icon: <ListChecksIcon weight="bold" size={16} />,
         soon: false,
       },
       {
         label: 'Agent Sandbox',
-        href: '/features/sandbox',
+        href: `${TENKI_WEB_BASE}/features/sandbox`,
         image: `${TENKI_STORAGE_BASE}/nav-sandbox.png`,
         icon: <CodeIcon weight="bold" size={16} />,
         soon: true,
@@ -46,16 +45,15 @@ const navigationItems = [
     ],
   },
   {
-    href: `/docs`,
+    href: `${TENKI_WEB_BASE}/docs`,
     label: 'Docs',
   },
   {
     label: 'Company',
-    href: '/company',
     submenu: [
       {
         label: 'Security',
-        href: '/company/security',
+        href: `${TENKI_WEB_BASE}/company/security`,
         image: `${TENKI_STORAGE_BASE}/nav-security-2.png`,
         icon: <LockIcon weight={'fill'} size={16} />,
         soon: false,
@@ -69,14 +67,14 @@ const navigationItems = [
       },
       {
         label: 'About',
-        href: '/company/about',
+        href: `${TENKI_WEB_BASE}/company/about`,
         image: `${TENKI_STORAGE_BASE}/nav-about-2.png`,
         icon: <NavAboutIcon />,
         soon: false,
       },
       {
         label: 'Careers',
-        href: '/company/careers',
+        href: `${TENKI_WEB_BASE}/company/careers`,
         image: `${TENKI_STORAGE_BASE}/nav-careers-2.png`,
         icon: <BriefcaseIcon weight="fill" size={16} />,
         soon: false,

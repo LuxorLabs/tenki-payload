@@ -24,21 +24,22 @@ const FOOTER_LINK_COLUMNS = [
   {
     title: 'Product',
     links: [
-      { label: 'Home', href: '/' },
-      { label: 'Code Reviewer', href: '/features/code-reviewer' },
-      { label: 'Runners', href: '/features/runners' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Documentation', href: '/docs', external: true },
-      { label: 'Changelog', href: '/docs/changelog', external: true },
+      { label: 'Home', href: `${TENKI_WEB_BASE}` },
+      { label: 'Code Reviewer', href: `${TENKI_WEB_BASE}/features/code-reviewer` },
+      { label: 'Runners', href: `${TENKI_WEB_BASE}/features/runners` },
+      { label: 'Agent Sandbox', href: `${TENKI_WEB_BASE}/features/sandbox` },
+      { label: 'Pricing', href: `${TENKI_WEB_BASE}/pricing` },
+      { label: 'Documentation', href: `${TENKI_WEB_BASE}/docs`, external: true },
+      { label: 'Changelog', href: `${TENKI_WEB_BASE}/docs/changelog`, external: true },
     ],
   },
   {
     title: 'Company',
     links: [
       { label: 'Blog', href: '/blog' },
-      { label: 'About', href: '/company/about' },
-      { label: 'Careers', href: '/company/careers', external: true },
-      { label: 'Security', href: '/company/security' },
+      { label: 'About', href: `${TENKI_WEB_BASE}/company/about` },
+      { label: 'Careers', href: `${TENKI_WEB_BASE}/company/careers`, external: true },
+      { label: 'Security', href: `${TENKI_WEB_BASE}/company/security` },
       {
         label: 'Privacy Policy',
         href: `${TENKI_WEB_BASE}/docs/privacy-policy`,
@@ -89,8 +90,6 @@ function FooterLinks() {
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
-  const toTenkiUrl = (href: string) =>
-    href.startsWith('http') || href.startsWith('mailto:') ? href : `${TENKI_WEB_BASE}${href}`
 
   return (
     <>
