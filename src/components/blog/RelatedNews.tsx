@@ -1,4 +1,4 @@
-import { BlogCard } from './BlogCard'
+import { RelatedNewsCard } from './RelatedNewsCard'
 import type { Post } from '@/payload-types'
 
 type RelatedNewsProps = {
@@ -11,13 +11,23 @@ export const RelatedNews = ({ posts, selectedPost }: RelatedNewsProps) => {
   if (relatedPosts.length === 0) return null
 
   return (
-    <section className="mx-auto flex w-full max-w-5xl flex-col px-6 py-6 md:px-12 xl:px-0">
+    <section className="mx-auto max-w-[calc(100%-32px)] xl:max-w-270 2xl:max-w-300 border-x border-bluish-gray-600">
+      <div className={'p-4 lg:p-8 border-bluish-gray-600 border-b'}>
+        <p className={'text-xs lg:text-sm text-blue-150 uppercase font-geist-mono'}>
+          Recommended for you{' '}
+        </p>
+        <p className={'text-static-primary text-2xl lg:text-[30px] font-semibold'}>
+          What's next in your stack.
+        </p>
+      </div>
       <div>
-        <h3 className="text-sm text-[#9ca3af]">Related News</h3>
-        <hr className="relative mt-2 h-px min-w-fit border-t border-white/20" />
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="p-4 lg:p-8 grid grid-cols-1 gap-6 lg:gap-8 md:grid-cols-2 xl:grid-cols-3">
           {relatedPosts.map((post, idx) => (
-            <BlogCard key={`related-news-${idx}`} post={post} />
+            <RelatedNewsCard
+              key={`related-news-${idx}`}
+              post={post}
+              className={idx === 2 ? 'hidden xl:block' : ''}
+            />
           ))}
         </div>
       </div>

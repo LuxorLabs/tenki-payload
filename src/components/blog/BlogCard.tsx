@@ -20,15 +20,13 @@ export function BlogCard({ post }: BlogCardProps) {
   // Get featured image URL
   let featuredImageUrl = BLOG_DEFAULT_IMG
   if (featuredImage?.url) {
-    featuredImageUrl = featuredImage.url.startsWith('http')
-      ? featuredImage.url
-      : featuredImage.url
+    featuredImageUrl = featuredImage.url.startsWith('http') ? featuredImage.url : featuredImage.url
   }
 
   return (
     <Link href={`/${post.slug}`} className="transition-colors duration-200">
-      <article className="group flex min-w-0 max-w-full flex-col gap-y-3">
-        <div className="relative aspect-[331/240] w-full overflow-hidden rounded-md transition-transform duration-300">
+      <article className="group flex min-w-0 max-w-full flex-col gap-y-2">
+        <div className="relative aspect-[317/170] w-full overflow-hidden rounded-sm transition-transform duration-300 border border-bluish-gray-600">
           <Image
             src={featuredImageUrl}
             alt={featuredImage?.alt || post.title}
@@ -40,9 +38,11 @@ export function BlogCard({ post }: BlogCardProps) {
         </div>
 
         {(post.publishedAt || post.createdAt) && author && (
-          <BlogAuthor author={author} datePublished={post.publishedAt || post.createdAt} />
+          <div className={' mt-1'}>
+            <BlogAuthor author={author} datePublished={post.publishedAt || post.createdAt} />
+          </div>
         )}
-        <p className="line-clamp-2 h-[56px] max-h-[56px] text-lg font-semibold">{post.title}</p>
+        <p className="line-clamp-2 h-[56px] max-h-[56px] text-lg font-medium">{post.title}</p>
         {post.tags && <BlogTag post={post} displayReadTime />}
       </article>
     </Link>

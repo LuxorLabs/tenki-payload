@@ -61,7 +61,7 @@ export const Navigation = () => {
             'border-bluish-gray-600 fixed inset-x-0 z-[999] mx-auto w-full border transition-all duration-500 ease-in-out',
             'bg-bluish-gray-900 max-w-[calc(100%-32px)] xl:max-w-[1080px] 2xl:max-w-[1200px]',
             scrolled && !isSheetOpen
-              ? 'bg-bluish-gray-900/80 mt-0 max-w-full border-t-0 border-b backdrop-blur-md xl:max-w-[1080px] 2xl:max-w-[1200px]'
+              ? 'bg-bluish-gray-900/80 mt-0 border-t-0 border-b backdrop-blur-md max-w-[calc(100%-32px)] xl:max-w-[1080px] 2xl:max-w-[1200px]'
               : '',
             isSheetOpen && 'border-t-0 md:border-t',
           )}

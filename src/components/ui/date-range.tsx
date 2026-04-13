@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useMediaQuery } from '@/utils/hooks/use-media-query'
 import { CalendarBlankIcon, XIcon } from '@phosphor-icons/react'
 import { format } from 'date-fns'
 import { PropsBase, PropsRange, DateRange as RDPDateRange } from 'react-day-picker'
@@ -15,6 +16,7 @@ type DatePickerRangeProps = Omit<PropsBase & PropsRange, 'mode'>
 export type DateRange = RDPDateRange
 
 export function DatePickerRange({ className, ...props }: DatePickerRangeProps) {
+  const isMobile = useMediaQuery('(max-width: 767px)')
   const [isOpen, setIsOpen] = useState(false)
   const date: DateRange | undefined = props.selected || { from: undefined, to: undefined }
   const hasDateValue = Boolean(date?.from || date?.to)
@@ -56,7 +58,7 @@ export function DatePickerRange({ className, ...props }: DatePickerRangeProps) {
                   isOpen ? 'text-input-controls-secondary' : 'text-input-controls-primary',
                 )}
               >
-                Pick a date range
+                Select date range
               </p>
             )}
           </div>
@@ -79,11 +81,12 @@ export function DatePickerRange({ className, ...props }: DatePickerRangeProps) {
       <PopoverContent
         className="bg-input-controls border-input-controls-border my-1 w-auto border p-0"
         align="end"
+        {...(isMobile && { side: 'bottom', align: 'center' })}
       >
         <Calendar
           {...props}
           mode="range"
-          numberOfMonths={2}
+          numberOfMonths={isMobile ? 1 : 2}
           rangeStartClassName="rounded-s-lg"
           rangeEndClassName="rounded-e-lg"
           showYearSwitcher={false}

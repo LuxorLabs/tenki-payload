@@ -18,9 +18,12 @@ export const BlogTag = ({
 }: BlogTagProps) => {
   const tags = post?.tags
 
-  const readTime = displayReadTime && post.readingTime ? (
-    <span className={cn('text-static-secondary text-sm', readTimeClassName)}>{post.readingTime} min read</span>
-  ) : null
+  const readTime =
+    displayReadTime && post.readingTime ? (
+      <span className={cn('text-static-secondary text-sm', readTimeClassName)}>
+        {post.readingTime} min read
+      </span>
+    ) : null
 
   return tags ? (
     <div className="flex flex-wrap items-center gap-2 md:gap-6">
@@ -33,26 +36,22 @@ export const BlogTag = ({
           const tagName = tagData?.name
 
           return tagName ? (
-            <span
-              key={`${tagName}-${idx}`}
-              className={cn(
-                'bg-badge-rest border-badge-rest-border text-static-secondary flex h-7 items-center rounded-md border px-2 py-1 text-sm',
-              )}
-            >
-              {tagName}
+            <span key={`${tagName}-${idx}`} className="contents">
+              {idx > 0 && <span className="text-blue-150 select-none">|</span>}
+              <span className="font-geist-mono text-blue-150 text-sm uppercase leading-none tracking-[1.96px]">
+                {tagName}
+              </span>
             </span>
           ) : null
         })}
         {!displayAll && tags.length > 2 && (
-          <span
-            className={cn(
-              'bg-badge-rest border-badge-rest-border text-static-secondary flex h-7 items-center rounded-md border px-2 py-1 text-sm',
-            )}
-          >
-            {`+${tags.length - 2}`}
-          </span>
+          <>
+            <span className="text-blue-150 select-none">|</span>
+            <span className="font-geist-mono text-blue-150 text-sm uppercase leading-none tracking-[1.96px]">
+              {`+${tags.length - 2}`}
+            </span>
+          </>
         )}
-        {position === 'end' && readTime}
       </div>
     </div>
   ) : null

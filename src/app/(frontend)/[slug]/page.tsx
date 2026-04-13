@@ -89,9 +89,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   // Extract tag IDs and category ID for related posts
   const tagIds = post.tags
-    ? (post.tags as any[])
-        .map((tag) => (typeof tag === 'number' ? tag : tag.id))
-        .filter(Boolean)
+    ? (post.tags as any[]).map((tag) => (typeof tag === 'number' ? tag : tag.id)).filter(Boolean)
     : []
 
   const categoryId =
@@ -144,7 +142,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <BlogStickyHeader />
-      <Introduction />
       <BlogMeta post={post} />
       <ContentSection post={post} />
       <RelatedNews posts={relatedPosts} selectedPost={post} />

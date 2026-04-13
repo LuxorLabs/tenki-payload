@@ -2,7 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { CaretDownIcon, CaretLeftIcon, CaretRightIcon, CheckIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
+import {
+  CaretDownIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  CheckIcon,
+  MagnifyingGlassIcon,
+  XIcon,
+} from '@phosphor-icons/react'
 import { isAfter, isBefore, isEqual } from 'date-fns'
 import { BlogCard } from './BlogCard'
 import { Button } from '@/components/ui/button'
@@ -25,7 +32,9 @@ export const Posts = ({ posts, tags }: PostsProps) => {
   const router = useRouter()
 
   const tagNames = useMemo(() => {
-    return (tags.map((tag) => tag.name).filter(Boolean) as string[]).sort((a, b) => a.localeCompare(b))
+    return (tags.map((tag) => tag.name).filter(Boolean) as string[]).sort((a, b) =>
+      a.localeCompare(b),
+    )
   }, [tags])
 
   const [dateRange, setDateRange] = useState<DateRange>()
@@ -89,17 +98,20 @@ export const Posts = ({ posts, tags }: PostsProps) => {
     return filteredData
   }, [posts, debouncedFilters, debouncedDateRange])
 
-  const setPage = useCallback((page: number) => {
-    setCurrentPage(page)
-    const params = new URLSearchParams(searchParams.toString())
-    if (page <= 1) {
-      params.delete('page')
-    } else {
-      params.set('page', String(page))
-    }
-    const query = params.toString()
-    router.replace(query ? `?${query}` : '/', { scroll: false })
-  }, [searchParams, router])
+  const setPage = useCallback(
+    (page: number) => {
+      setCurrentPage(page)
+      const params = new URLSearchParams(searchParams.toString())
+      if (page <= 1) {
+        params.delete('page')
+      } else {
+        params.set('page', String(page))
+      }
+      const query = params.toString()
+      router.replace(query ? `?${query}` : '/', { scroll: false })
+    },
+    [searchParams, router],
+  )
 
   // Sync URL changes (e.g. browser back/forward) to state
   useEffect(() => {
@@ -149,75 +161,87 @@ export const Posts = ({ posts, tags }: PostsProps) => {
     return tagNames.filter((tag) => tag.toLowerCase().includes(query))
   }, [tagNames, tagSearch])
 
-  const tagFilterLabel = appliedFiltersCount > 0
-    ? `${appliedFiltersCount} Tag${appliedFiltersCount > 1 ? 's' : ''} Selected`
-    : 'All Tags'
+  const tagFilterLabel =
+    appliedFiltersCount > 0
+      ? `${appliedFiltersCount} Tag${appliedFiltersCount > 1 ? 's' : ''} Selected`
+      : 'All Tags'
 
   return (
-    <section className="relative mx-auto mt-6 max-w-5xl px-6 md:mb-16 md:px-12 xl:px-0">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div className="flex flex-wrap items-center gap-2">
-          <Popover onOpenChange={(open) => { if (!open) setTagSearch('') }}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="secondary"
-                className="h-9 w-52 cursor-pointer justify-between !px-3 text-sm transition-colors duration-200"
-              >
-                <span className="line-clamp-1">{tagFilterLabel}</span>
-                <CaretDownIcon className="size-4 shrink-0" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-56 rounded-xl p-0" align="start">
-              <div className="border-input-controls-border border-b p-2">
-                <div className="relative">
-                  <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    value={tagSearch}
-                    onChange={(e) => setTagSearch(e.target.value)}
-                    placeholder="Search tags..."
-                    className="bg-transparent h-8 w-full rounded-md pl-8 pr-2 text-sm text-white outline-none placeholder:text-gray-500"
-                  />
+    <section className="relative mx-auto max-w-[calc(100%-32px)] xl:max-w-[1080px] 2xl:max-w-[1200px]">
+      <div className="flex gap-1.5 p-4 lg:gap-2 lg:py-4 lg:px-8 border-x border-bluish-gray-600 border-b items-start">
+        <div className="flex flex-wrap items-center gap-2 flex-[3] min-w-0">
+          <div className="flex-1 min-w-0">
+            <Popover
+              onOpenChange={(open) => {
+                if (!open) setTagSearch('')
+              }}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  variant="secondary"
+                  className="h-9 w-full cursor-pointer justify-between !px-3 text-sm transition-colors duration-200"
+                >
+                  <span className="line-clamp-1">{tagFilterLabel}</span>
+                  <CaretDownIcon className="size-4 shrink-0" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 rounded-xl p-0" align="start" side={'bottom'}>
+                <div className="border-input-controls-border border-b p-2">
+                  <div className="relative">
+                    <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="text"
+                      value={tagSearch}
+                      onChange={(e) => setTagSearch(e.target.value)}
+                      placeholder="Search tags..."
+                      className="bg-transparent h-8 w-full rounded-md pl-8 pr-2 text-sm text-white outline-none placeholder:text-gray-500"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="max-h-64 overflow-y-auto overscroll-contain p-2" onWheel={(e) => e.stopPropagation()}>
-                {!tagSearch.trim() && (
-                  <button
-                    onClick={resetFilters}
-                    className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
-                  >
-                    <span className="flex w-4 shrink-0 items-center justify-center">
-                      {appliedFiltersCount === 0 ? <CheckIcon className="size-4" weight="bold" /> : null}
-                    </span>
-                    All Tags
-                  </button>
-                )}
-                {visibleTags.length === 0 && (
-                  <p className="px-2 py-3 text-center text-sm text-gray-500">No tags found.</p>
-                )}
-                {visibleTags.map((tag) => {
-                  const isSelected = filters[tag]
-                  return (
+                <div
+                  className="max-h-64 overflow-y-auto overscroll-contain p-2"
+                  onWheel={(e) => e.stopPropagation()}
+                >
+                  {!tagSearch.trim() && (
                     <button
-                      key={tag}
-                      onClick={() => {
-                        setFilters({
-                          ...filters,
-                          [tag]: !filters[tag],
-                        })
-                      }}
+                      onClick={resetFilters}
                       className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
                     >
                       <span className="flex w-4 shrink-0 items-center justify-center">
-                        {isSelected ? <CheckIcon className="size-4" weight="bold" /> : null}
+                        {appliedFiltersCount === 0 ? (
+                          <CheckIcon className="size-4" weight="bold" />
+                        ) : null}
                       </span>
-                      {tag}
+                      All Tags
                     </button>
-                  )
-                })}
-              </div>
-            </PopoverContent>
-          </Popover>
+                  )}
+                  {visibleTags.length === 0 && (
+                    <p className="px-2 py-3 text-center text-sm text-gray-500">No tags found.</p>
+                  )}
+                  {visibleTags.map((tag) => {
+                    const isSelected = filters[tag]
+                    return (
+                      <button
+                        key={tag}
+                        onClick={() => {
+                          setFilters({
+                            ...filters,
+                            [tag]: !filters[tag],
+                          })
+                        }}
+                        className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
+                      >
+                        <span className="flex w-4 shrink-0 items-center justify-center">
+                          {isSelected ? <CheckIcon className="size-4" weight="bold" /> : null}
+                        </span>
+                        {tag}
+                      </button>
+                    )
+                  })}
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
           {appliedFiltersCount > 0 && (
             <Button
               variant="secondary"
@@ -233,22 +257,25 @@ export const Posts = ({ posts, tags }: PostsProps) => {
           defaultMonth={dateRange?.from}
           selected={dateRange}
           onSelect={(range) => setDateRange(range)}
-          className="min-w-60"
+          className="h-9 md:flex-1 !min-w-0"
         />
       </div>
       {paginatedPosts.length > 0 ? (
-        <>
-          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className={' border-x border-bluish-gray-600'}>
+          <div className=" grid grid-cols-1 p-4 gap-8 lg:p-8 md:gap-6 lg:gap-8 md:grid-cols-2 xl:grid-cols-3">
             {paginatedPosts.map((post: Post, idx: number) => (
               <BlogCard key={`blog-${idx}`} post={post} />
             ))}
           </div>
           {totalPages > 1 && (
-            <div className="mt-10 flex items-center justify-center gap-2">
+            <div className="py-4 flex items-center justify-center gap-2 border-t border-bluish-gray-600 ">
               <Button
-                variant="secondary"
-                className="h-9 w-9 cursor-pointer !p-0"
-                onClick={() => { setPage(Math.max(1, currentPage - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                variant="ghost"
+                className="size-7 cursor-pointer !p-0"
+                onClick={() => {
+                  setPage(Math.max(1, currentPage - 1))
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
                 disabled={currentPage === 1}
               >
                 <CaretLeftIcon size={16} />
@@ -256,24 +283,30 @@ export const Posts = ({ posts, tags }: PostsProps) => {
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <Button
                   key={page}
-                  variant={page === currentPage ? 'default' : 'secondary'}
-                  className="h-9 w-9 cursor-pointer !p-0"
-                  onClick={() => { setPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                  variant={page === currentPage ? 'secondary' : 'ghost'}
+                  className="size-7 cursor-pointer !p-0 text-sm"
+                  onClick={() => {
+                    setPage(page)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
                 >
                   {page}
                 </Button>
               ))}
               <Button
-                variant="secondary"
-                className="h-9 w-9 cursor-pointer !p-0"
-                onClick={() => { setPage(Math.min(totalPages, currentPage + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                variant="ghost"
+                className="size-7 cursor-pointer !p-0"
+                onClick={() => {
+                  setPage(Math.min(totalPages, currentPage + 1))
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
                 disabled={currentPage === totalPages}
               >
                 <CaretRightIcon size={16} />
               </Button>
             </div>
           )}
-        </>
+        </div>
       ) : (
         <NoResults />
       )}
