@@ -17,7 +17,7 @@ export const RelatedNews = ({ posts, selectedPost }: RelatedNewsProps) => {
           Recommended for you{' '}
         </p>
         <p className={'text-static-primary text-2xl lg:text-[30px] font-semibold'}>
-          What's next in your stack.
+          What&apos;s next in your stack.
         </p>
       </div>
       <div>
