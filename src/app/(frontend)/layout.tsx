@@ -55,6 +55,11 @@ export const metadata: Metadata = {
     icon: '/blog/images/favicon-default.png',
     apple: '/blog/images/favicon-default.png',
   },
+  alternates: {
+    types: {
+      'application/rss+xml': 'https://tenki.cloud/blog/rss.xml',
+    },
+  },
 }
 
 export const viewport: Viewport = {

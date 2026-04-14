@@ -8,7 +8,7 @@ import { Introduction } from '@/components/blog/Introduction'
 import { BlogMeta } from '@/components/blog/BlogMeta'
 import { BlogStickyHeader } from '@/components/blog/BlogStickyHeader'
 import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
-import type { Post, Category, Media } from '@/payload-types'
+import type { Post, Category, Media, Author } from '@/payload-types'
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -139,8 +139,92 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const relatedPosts = relatedPostsQuery.docs as Post[]
 
+  const author = post.author as Author | undefined
+  const category = post.category as Category | undefined
+  const featuredImage = post.featuredImage as Media | undefined
+  const postUrl = `https://tenki.cloud/blog/${post.slug}`
+
+  const blogPostingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    url: postUrl,
+    datePublished: post.publishedAt || post.createdAt,
+    dateModified: post.updatedAt,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    ...(featuredImage?.url && {
+      image: {
+        '@type': 'ImageObject',
+        url: featuredImage.url,
+        ...(featuredImage.width && { width: featuredImage.width }),
+        ...(featuredImage.height && { height: featuredImage.height }),
+      },
+    }),
+    ...(author && {
+      author: {
+        '@type': 'Person',
+        name: author.name,
+        ...(author.socialLinks?.linkedin && { url: author.socialLinks.linkedin }),
+        ...(author.socialLinks?.twitter && { sameAs: [author.socialLinks.twitter] }),
+      },
+    }),
+    publisher: {
+      '@type': 'Organization',
+      name: 'Tenki',
+      url: 'https://tenki.cloud',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://storage.googleapis.com/tenki-cloud-assets/web/tenki-open-graph.webp',
+      },
+    },
+    ...(post.readingTime && {
+      timeRequired: `PT${post.readingTime}M`,
+    }),
+    ...(category && {
+      articleSection: category.name,
+    }),
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Blog',
+        item: 'https://tenki.cloud/blog',
+      },
+      ...(category
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: category.name,
+              item: `https://tenki.cloud/blog/category/${category.slug}`,
+            },
+          ]
+        : []),
+      {
+        '@type': 'ListItem',
+        position: category ? 3 : 2,
+        name: post.title,
+        item: postUrl,
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <BlogStickyHeader />
       <BlogMeta post={post} />
       <ContentSection post={post} />
