@@ -12,7 +12,7 @@ import { ReviewerBanner } from './reviewer-banner'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
-import { TENKI_APP_URL } from '@/components/constants/metadata'
+import { TENKI_APP_URL, TENKI_WEB_BASE } from '@/components/constants/metadata'
 import { NavigationDivider } from '@/components/dashed-section-divider'
 import { useNavigation } from '@/utils/hooks/use-navigation'
 
@@ -74,7 +74,7 @@ export const Navigation = () => {
             )}
           >
             <div className="flex items-center justify-between lg:min-w-44">
-              <Link href="/" aria-label="home" className="flex items-center space-x-2">
+              <Link href={TENKI_WEB_BASE} aria-label="home" className="flex items-center space-x-2">
                 <Logo className={'w-[90px] md:w-[120px]'} />
               </Link>
             </div>
