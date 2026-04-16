@@ -7,6 +7,7 @@ import { RelatedNews } from '@/components/blog/RelatedNews'
 import { Introduction } from '@/components/blog/Introduction'
 import { BlogMeta } from '@/components/blog/BlogMeta'
 import { BlogStickyHeader } from '@/components/blog/BlogStickyHeader'
+import { BlogPostTags } from '@/components/blog/BlogPostTags'
 import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
 import type { Post, Category, Media, Author } from '@/payload-types'
 
@@ -228,6 +229,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <BlogStickyHeader />
       <BlogMeta post={post} />
       <ContentSection post={post} />
+      <div className="mx-auto max-w-[calc(100%-32px)] xl:max-w-[1080px] 2xl:max-w-[1200px]">
+        <BlogPostTags post={post} />
+      </div>
       <RelatedNews posts={relatedPosts} selectedPost={post} />
     </>
   )

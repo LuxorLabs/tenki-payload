@@ -18,24 +18,24 @@ import { DatePickerRange, DateRange } from '@/components/ui/date-range'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/utils/hooks/use-debounce'
-import type { Post, Tag } from '@/payload-types'
+import type { Post, Category } from '@/payload-types'
 
 const POSTS_PER_PAGE = 12
 
 type PostsProps = {
   posts: Post[]
-  tags: Tag[]
+  categories: Category[]
 }
 
-export const Posts = ({ posts, tags }: PostsProps) => {
+export const Posts = ({ posts, categories }: PostsProps) => {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const tagNames = useMemo(() => {
-    return (tags.map((tag) => tag.name).filter(Boolean) as string[]).sort((a, b) =>
+  const categoryNames = useMemo(() => {
+    return (categories.map((cat) => cat.name).filter(Boolean) as string[]).sort((a, b) =>
       a.localeCompare(b),
     )
-  }, [tags])
+  }, [categories])
 
   const [dateRange, setDateRange] = useState<DateRange>()
   const [currentPage, setCurrentPage] = useState(() => {
@@ -44,7 +44,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
     return parsed >= 1 ? parsed : 1
   })
   const [filters, setFilters] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(tagNames.map((name) => [name, false])) as Record<string, boolean>,
+    () => Object.fromEntries(categoryNames.map((name) => [name, false])) as Record<string, boolean>,
   )
 
   const appliedFiltersCount = useMemo(() => {
@@ -60,20 +60,9 @@ export const Posts = ({ posts, tags }: PostsProps) => {
 
     if (enabledFilters.length !== 0) {
       filteredData = posts.filter((post: Post) => {
-        const postTags =
-          post?.tags
-            ?.map((tag) => {
-              const tagData = typeof tag === 'number' ? null : tag
-              return tagData?.name
-            })
-            .filter(Boolean) ?? []
-
-        for (const tag of enabledFilters) {
-          if (postTags.includes(tag)) {
-            return true
-          }
-        }
-        return false
+        const category = typeof post.category === 'number' ? null : post.category
+        const categoryName = category?.name
+        return categoryName ? enabledFilters.includes(categoryName) : false
       })
     }
 
@@ -150,21 +139,21 @@ export const Posts = ({ posts, tags }: PostsProps) => {
   )
 
   const resetFilters = () => {
-    setFilters(Object.fromEntries(tagNames.map((name) => [name, false])))
+    setFilters(Object.fromEntries(categoryNames.map((name) => [name, false])))
   }
 
-  const [tagSearch, setTagSearch] = useState('')
+  const [categorySearch, setCategorySearch] = useState('')
 
-  const visibleTags = useMemo(() => {
-    if (!tagSearch.trim()) return tagNames
-    const query = tagSearch.toLowerCase()
-    return tagNames.filter((tag) => tag.toLowerCase().includes(query))
-  }, [tagNames, tagSearch])
+  const visibleCategories = useMemo(() => {
+    if (!categorySearch.trim()) return categoryNames
+    const query = categorySearch.toLowerCase()
+    return categoryNames.filter((cat) => cat.toLowerCase().includes(query))
+  }, [categoryNames, categorySearch])
 
-  const tagFilterLabel =
+  const categoryFilterLabel =
     appliedFiltersCount > 0
-      ? `${appliedFiltersCount} Tag${appliedFiltersCount > 1 ? 's' : ''} Selected`
-      : 'All Tags'
+      ? `${appliedFiltersCount} ${appliedFiltersCount > 1 ? 'Categories' : 'Category'} Selected`
+      : 'All Categories'
 
   return (
     <section className="relative mx-auto max-w-[calc(100%-32px)] xl:max-w-[1080px] 2xl:max-w-[1200px]">
@@ -173,7 +162,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
           <div className="flex-1 min-w-0">
             <Popover
               onOpenChange={(open) => {
-                if (!open) setTagSearch('')
+                if (!open) setCategorySearch('')
               }}
             >
               <PopoverTrigger asChild>
@@ -181,7 +170,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                   variant="secondary"
                   className="h-9 w-full cursor-pointer justify-between !px-3 text-sm transition-colors duration-200"
                 >
-                  <span className="line-clamp-1">{tagFilterLabel}</span>
+                  <span className="line-clamp-1">{categoryFilterLabel}</span>
                   <CaretDownIcon className="size-4 shrink-0" />
                 </Button>
               </PopoverTrigger>
@@ -191,9 +180,9 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                     <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-gray-400" />
                     <input
                       type="text"
-                      value={tagSearch}
-                      onChange={(e) => setTagSearch(e.target.value)}
-                      placeholder="Search tags..."
+                      value={categorySearch}
+                      onChange={(e) => setCategorySearch(e.target.value)}
+                      placeholder="Search categories..."
                       className="bg-transparent h-8 w-full rounded-md pl-8 pr-2 text-sm text-white outline-none placeholder:text-gray-500"
                     />
                   </div>
@@ -202,7 +191,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                   className="max-h-64 overflow-y-auto overscroll-contain p-2"
                   onWheel={(e) => e.stopPropagation()}
                 >
-                  {!tagSearch.trim() && (
+                  {!categorySearch.trim() && (
                     <button
                       onClick={resetFilters}
                       className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
@@ -212,21 +201,21 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                           <CheckIcon className="size-4" weight="bold" />
                         ) : null}
                       </span>
-                      All Tags
+                      All Categories
                     </button>
                   )}
-                  {visibleTags.length === 0 && (
-                    <p className="px-2 py-3 text-center text-sm text-gray-500">No tags found.</p>
+                  {visibleCategories.length === 0 && (
+                    <p className="px-2 py-3 text-center text-sm text-gray-500">No categories found.</p>
                   )}
-                  {visibleTags.map((tag) => {
-                    const isSelected = filters[tag]
+                  {visibleCategories.map((cat) => {
+                    const isSelected = filters[cat]
                     return (
                       <button
-                        key={tag}
+                        key={cat}
                         onClick={() => {
                           setFilters({
                             ...filters,
-                            [tag]: !filters[tag],
+                            [cat]: !filters[cat],
                           })
                         }}
                         className="hover:bg-cta-menu-item-hovered flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
@@ -234,7 +223,7 @@ export const Posts = ({ posts, tags }: PostsProps) => {
                         <span className="flex w-4 shrink-0 items-center justify-center">
                           {isSelected ? <CheckIcon className="size-4" weight="bold" /> : null}
                         </span>
-                        {tag}
+                        {cat}
                       </button>
                     )
                   })}

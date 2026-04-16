@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { Posts } from '@/components/blog/Posts'
 import { HeroSection } from '@/components/blog/HeroSection'
-import type { Post, Tag } from '@/payload-types'
+import type { Post, Category } from '@/payload-types'
 import { BLOG_CARD_SELECT, BLOG_CARD_POPULATE } from '@/lib/queries'
 
 export const metadata = {
@@ -33,25 +33,21 @@ export default async function BlogPage() {
 
   const posts = postsResponse.docs as Post[]
 
-  // Extract unique tags from published posts only
-  const tagsMap = new Map<number, Tag>()
+  // Extract unique categories from published posts
+  const categoriesMap = new Map<number, Category>()
   for (const post of posts) {
-    if (post.tags) {
-      for (const tag of post.tags) {
-        if (typeof tag !== 'number' && tag.id) {
-          tagsMap.set(tag.id, tag)
-        }
-      }
+    if (post.category && typeof post.category !== 'number') {
+      categoriesMap.set(post.category.id, post.category)
     }
   }
-  const tags = Array.from(tagsMap.values())
+  const categories = Array.from(categoriesMap.values())
 
   return (
     <>
       <HeroSection />
       <section>
         <Suspense>
-          <Posts posts={posts} tags={tags} />
+          <Posts posts={posts} categories={categories} />
         </Suspense>
       </section>
     </>

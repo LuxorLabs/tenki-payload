@@ -42,8 +42,8 @@ export function RelatedNewsCard({ post, className }: RelatedNewsCardProps) {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1.5 text-sm">
-            {post.tags && <BlogTag post={post} />}
-            {post.tags && datePublished && (
+            {post.category && <BlogTag post={post} />}
+            {post.category && datePublished && (
               <span className="text-static-secondary">·</span>
             )}
             {datePublished && (

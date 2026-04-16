@@ -43,7 +43,7 @@ export function BlogCard({ post }: BlogCardProps) {
           </div>
         )}
         <p className="line-clamp-2 h-[56px] max-h-[56px] text-lg font-medium">{post.title}</p>
-        {post.tags && <BlogTag post={post} displayReadTime />}
+        {post.category && <BlogTag post={post} displayReadTime />}
       </article>
     </Link>
   )

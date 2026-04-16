@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import type { Post, Tag } from '@/payload-types'
+import type { Post, Category } from '@/payload-types'
 
 type BlogTagProps = {
   displayAll?: boolean
@@ -16,7 +16,8 @@ export const BlogTag = ({
   position = 'end',
   readTimeClassName,
 }: BlogTagProps) => {
-  const tags = post?.tags
+  const category = typeof post.category === 'number' ? null : (post.category as Category)
+  const categoryName = category?.name
 
   const readTime =
     displayReadTime && post.readingTime ? (
@@ -25,34 +26,15 @@ export const BlogTag = ({
       </span>
     ) : null
 
-  return tags ? (
+  return categoryName ? (
     <div className="flex flex-wrap items-center gap-2 md:gap-6">
       {position === 'start' && readTime}
       <div className="flex flex-wrap items-center gap-2">
-        {(tags as Tag[]).map((tag, idx) => {
-          if (idx > 1 && !displayAll) return null
-
-          const tagData = typeof tag === 'number' ? null : tag
-          const tagName = tagData?.name
-
-          return tagName ? (
-            <span key={`${tagName}-${idx}`} className="contents">
-              {idx > 0 && <span className="text-blue-150 select-none">|</span>}
-              <span className="font-geist-mono text-blue-150 text-sm uppercase leading-none tracking-[1.96px]">
-                {tagName}
-              </span>
-            </span>
-          ) : null
-        })}
-        {!displayAll && tags.length > 2 && (
-          <>
-            <span className="text-blue-150 select-none">|</span>
-            <span className="font-geist-mono text-blue-150 text-sm uppercase leading-none tracking-[1.96px]">
-              {`+${tags.length - 2}`}
-            </span>
-          </>
-        )}
+        <span className="font-geist-mono text-blue-150 text-sm uppercase leading-none tracking-[1.96px]">
+          {categoryName}
+        </span>
       </div>
+      {position === 'end' && readTime}
     </div>
   ) : null
 }

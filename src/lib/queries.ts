@@ -6,6 +6,7 @@ export const BLOG_CARD_SELECT = {
   slug: true,
   featuredImage: true,
   author: true,
+  category: true,
   tags: true,
   publishedAt: true,
   readingTime: true,
@@ -16,5 +17,6 @@ export const BLOG_CARD_SELECT = {
 export const BLOG_CARD_POPULATE = {
   media: { url: true, filename: true, alt: true },
   authors: { name: true, avatar: true },
-  tags: { name: true },
+  categories: { name: true, slug: true },
+  tags: { name: true, slug: true },
 } satisfies PopulateType
