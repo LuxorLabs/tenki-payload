@@ -31,7 +31,7 @@ export function DatePickerRange({ className, ...props }: DatePickerRangeProps) {
         <Button
           variant={'secondary'}
           className={cn(
-            'min-w-72 cursor-pointer justify-start text-left font-normal',
+            'min-w-72 cursor-pointer justify-between text-left font-normal',
             {
               'ring-input-controls-border-hovered outline-1 outline-offset-2 outline-white hover:outline-white':
                 isOpen,
