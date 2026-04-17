@@ -42,7 +42,7 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
             </span>
           </div>
 
-          <h1 className="text-lg font-semibold md:text-2xl lg:text-[30px] py-3">{post.title}</h1>
+          <h1 className="text-lg font-semibold md:text-2xl lg:text-[30px] py-3 ">{post.title}</h1>
           {(post.publishedAt || post.createdAt) && post.author && (
             <BlogAuthor
               author={post.author}
@@ -54,7 +54,7 @@ export const BlogMeta = ({ post }: BlogMetaProps) => {
 
         <div className={'mt-6 lg:mt-0'}>
           <p className={'text-static-secondary text-sm lg:text-sm'}>Share Article:</p>
-          <div className="flex gap-1 mt-1">
+          <div className="flex gap-2 mt-1">
             <Button
               onClick={() => {
                 navigator.clipboard.writeText(currentUrl).then(() => {

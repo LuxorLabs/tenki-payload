@@ -36,22 +36,22 @@ export const ContentSidebar = ({ headings, excerpt, title, author }: ContentSide
           {headings.length > 0 && (
             <div className="hidden lg:block ">
               <h3 className="text-static-secondary text-sm">Table of Contents</h3>
-              <ul className="space-y-2  mt-4 text-sm text-static-primary">
+              <ul className="space-y-2 mt-6 text-sm text-static-secondary">
                 {headings.map((heading) => (
                   <li
                     key={heading.id}
                     className={cn('mt-2.5', {
                       'ml-0': heading.level === 1,
-                      'ml-4': heading.level === 2,
-                      'ml-8': heading.level === 3,
-                      'ml-12': heading.level === 4,
+                      'ml-2': heading.level === 2,
+                      'ml-6': heading.level === 3,
+                      'ml-8': heading.level === 4,
                     })}
                   >
                     <Link
                       href={`#${heading.id}`}
                       className={cn(
                         'transition-colors duration-200 hover:text-white/80',
-                        activeId === heading.id && 'font-bold text-white',
+                        activeId === heading.id && 'font-medium text-static-primary',
                       )}
                     >
                       {heading.text}

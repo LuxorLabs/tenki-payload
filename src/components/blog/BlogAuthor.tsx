@@ -53,7 +53,7 @@ export const BlogAuthor = ({
       <span className={cn('shrink-0 whitespace-nowrap', authorNameClassName)}>{author.name}</span>
       {author.role && (
         <>
-          <span className="size-0.5 shrink-0 bg-white" />
+          <span className="size-0.5 shrink-0 bg-static-secondary" />
           <span className="shrink-0 whitespace-nowrap capitalize">{author.role}</span>
         </>
       )}
