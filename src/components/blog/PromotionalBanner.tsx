@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { SectionDivider } from '@/components/dashed-section-divider'
-import { TENKI_APP_URL, TENKI_STORAGE_BASE } from '@/components/constants/metadata'
+import { CALENDLY_URL, TENKI_APP_URL, TENKI_STORAGE_BASE } from '@/components/constants/metadata'
 
 export const PromotionalBanner = () => {
   const pathname = usePathname()
@@ -39,21 +39,14 @@ export const PromotionalBanner = () => {
             </Link>
 
             <Link
-              href={TENKI_APP_URL + '/auth/login'}
+              href={CALENDLY_URL}
               target="_blank"
               className={cn(
                 buttonVariants({ variant: 'secondary' }),
                 'h-9 max-w-56 cursor-pointer gap-1.5 px-4 py-2 md:max-w-56 lg:w-fit',
               )}
             >
-              <Image
-                src={`${TENKI_STORAGE_BASE}/avatar-marina.webp`}
-                alt="Book demo for Tenki Cloud"
-                height={20}
-                width={20}
-                className="rounded-full"
-              />
-              <span>Book a demo with Marina</span>
+              <span>Talk to an Engineer</span>
             </Link>
           </div>
         </div>
