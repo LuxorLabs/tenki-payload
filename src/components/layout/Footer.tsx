@@ -11,9 +11,9 @@ import { PromotionalBanner } from '@/components/blog/PromotionalBanner'
 import {
   BUILT_IN_SEATTLE_URL,
   CALENDLY_URL,
+  LUXOR_URL,
   TENKI_DISCORD_URL,
   TENKI_LINKED_IN_URL,
-  TENKI_UNEED_TOOL_URL,
   TENKI_WEB_BASE,
   TENKI_X_URL,
 } from '@/components/constants/metadata'
@@ -27,7 +27,6 @@ const FOOTER_LINK_COLUMNS = [
       { label: 'Home', href: `${TENKI_WEB_BASE}` },
       { label: 'Code Reviewer', href: `${TENKI_WEB_BASE}/features/code-reviewer` },
       { label: 'Runners', href: `${TENKI_WEB_BASE}/features/runners` },
-      { label: 'Agent Sandbox', href: `${TENKI_WEB_BASE}/features/sandbox` },
       { label: 'Pricing', href: `${TENKI_WEB_BASE}/pricing` },
       { label: 'Documentation', href: `${TENKI_WEB_BASE}/docs`, external: true },
       { label: 'Changelog', href: `${TENKI_WEB_BASE}/docs/changelog`, external: true },
@@ -97,35 +96,43 @@ export function Footer() {
       <SectionDivider />
       <footer className="bg-bluish-gray-1000 relative w-full overflow-hidden">
         <div className="border-bluish-gray-600 relative mx-auto flex max-w-[calc(100%-32px)] flex-col border-x xl:max-w-[1080px] 2xl:max-w-[1200px]">
-          <div className="flex max-h-[590px] flex-col px-4 md:h-[276px] md:flex-row md:justify-between lg:min-h-[400px] lg:px-8">
+          <div className="flex flex-col px-4 md:flex-row md:justify-between md:gap-8 lg:min-h-[400px] lg:px-8">
             <div className="mt-6 flex flex-col gap-4 md:max-w-[228px] lg:mt-8 lg:max-w-[250px] lg:gap-8">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
                 <Link href="/" aria-label="home" className="flex items-center space-x-2">
                   <Logo className={'w-24'} />
                 </Link>
-                <p className="text-static-secondary text-sm">
-                  Say hi at{' '}
-                  <Link
-                    href="mailto:hello@tenki.cloud"
-                    className="text-cta-link-rest hover:text-cta-link-hovered transition-colors duration-300 hover:underline"
-                  >
-                    hello@tenki.cloud
-                  </Link>{' '}
-                  👋
-                </p>
+                <p className="text-static-primary text-sm">Ship code faster and cheaper.</p>
               </div>
 
-              <div className="flex flex-row md:flex-col lg:gap-y-2">
-                <ProductHuntTag theme="dark" />
-                <div className={'hidden lg:block'}>
-                  <UneedCarousel />
-                </div>
-                <div className={'flex lg:hidden'}>
-                  <Link href={TENKI_UNEED_TOOL_URL} target="_blank" rel="noopener noreferrer">
-                    <UneedDailyBadge className="h-8 w-40 md:h-[42px]" />
-                  </Link>
-                </div>
+              <div className="flex flex-col">
+                <p className="text-static-primary text-sm">
+                  1100 Bellevue Way NE, Suite
+                  <br />
+                  514-4A, Bellevue, WA 98004
+                </p>
+                <Link
+                  href="mailto:hello@tenki.cloud"
+                  className="text-cta-link-rest hover:text-cta-link-hovered text-sm transition-colors duration-300 hover:underline"
+                >
+                  hello@tenki.cloud
+                </Link>
               </div>
+
+              <p className="text-static-primary text-sm">
+                Tenki is owned and operated
+                <br />
+                by{' '}
+                <Link
+                  href={LUXOR_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cta-link-rest hover:text-cta-link-hovered font-medium transition-colors duration-300 hover:underline"
+                >
+                  Luxor Technology
+                </Link>
+                .
+              </p>
             </div>
             <FooterLinks />
           </div>
@@ -139,7 +146,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-cta-link-rest hover:text-cta-link-rest/80 transition-colors duration-300 ease-out hover:underline"
               >
-                Built in Seattle, WA.
+                Built in Seattle.
               </Link>
             </div>
           </div>
