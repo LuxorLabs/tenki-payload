@@ -49,6 +49,11 @@ const FOOTER_LINK_COLUMNS = [
         href: `${TENKI_WEB_BASE}/docs/terms-of-service`,
         external: true,
       },
+      {
+        label: 'Editorial Policy',
+        href: `${TENKI_WEB_BASE}/docs/editorial-policy`,
+        external: true,
+      },
     ],
   },
   {
