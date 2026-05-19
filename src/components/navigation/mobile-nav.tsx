@@ -86,7 +86,9 @@ export const MobileNav = ({
                   <li
                     className={cn(
                       'text-static-secondary flex cursor-pointer items-center justify-between p-4 text-sm',
-                      i.href && currentPath.includes(i.href) && 'text-static-primary font-bold',
+                      (isPathActive(currentPath, i.href) ||
+                        (i.submenu?.some((sub) => isPathActive(currentPath, sub.href)) ?? false)) &&
+                        'text-static-primary font-bold',
                     )}
                     onClick={() => toggleMobileSubmenu(idx)}
                   >
@@ -100,7 +102,13 @@ export const MobileNav = ({
                   <li>
                     <Link
                       href={i.href!}
-                      onClick={() => onSheetOpenChange(false)}
+                      onClick={(e) => {
+                        onSheetOpenChange(false)
+                        if (currentPath === i.href) {
+                          e.preventDefault()
+                          window.scrollTo({ top: 0, behavior: 'smooth' })
+                        }
+                      }}
                       className={cn(
                         'text-static-secondary flex justify-between p-4 text-sm',
                         currentPath === i.href && 'text-static-primary font-bold',
@@ -118,7 +126,13 @@ export const MobileNav = ({
                       <li key={sIdx}>
                         <Link
                           href={sub.href}
-                          onClick={() => onSheetOpenChange(false)}
+                          onClick={(e) => {
+                            onSheetOpenChange(false)
+                            if (currentPath === sub.href) {
+                              e.preventDefault()
+                              window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }
+                          }}
                           className={cn(
                             'flex items-center gap-2 px-4 py-4 text-sm transition-colors',
                             isActive ? 'text-static-primary' : 'text-static-secondary',
@@ -128,6 +142,7 @@ export const MobileNav = ({
                           {sub.label}
                           {sub.new && <StatusTag label="New" type="positive" />}
                           {sub.soon && <StatusTag label="Soon" type="info" />}
+                          {sub.beta && <StatusTag label="Closed Beta" type="caution" />}
                         </Link>
                       </li>
                     )

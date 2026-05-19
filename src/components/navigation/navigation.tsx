@@ -35,9 +35,11 @@ export const Navigation = () => {
 
   return (
     <header className="w-full">
+      {/* Keep collapse/expand durations inside the 500ms `hadRecentInput` window
+       * that excludes user-triggered shifts from CLS. */}
       <div
         className={cn(
-          'grid transition-[grid-template-rows] duration-500 ease-in-out',
+          'grid transition-[grid-template-rows] duration-200 ease-in-out',
           scrolled ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]',
         )}
       >
@@ -47,7 +49,7 @@ export const Navigation = () => {
       </div>
       <div
         className={cn(
-          'grid transition-[grid-template-rows] duration-300 ease-in-out',
+          'grid transition-[grid-template-rows] duration-200 ease-in-out',
           scrolled ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]',
         )}
       >

@@ -49,6 +49,21 @@ function serializeLexical(node: any): React.ReactNode {
     return null
   }
 
+  // Handle inline upload nodes (images placed in the post body)
+  if (node.type === 'upload') {
+    const media = node.value
+    if (!media || typeof media !== 'object' || !media.url) return null
+    return (
+      <img
+        src={media.url}
+        alt={media.alt || ''}
+        width={media.width || undefined}
+        height={media.height || undefined}
+        loading="lazy"
+      />
+    )
+  }
+
   // Handle children array
   if (node.children) {
     const children = serializeLexical(node.children)
