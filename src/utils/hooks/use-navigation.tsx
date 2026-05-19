@@ -1,15 +1,17 @@
 import {
   BriefcaseIcon,
   CodeIcon,
+  CpuIcon,
   FilesIcon,
+  HardDrivesIcon,
   ListChecksIcon,
-  LockIcon,
+  LockSimpleIcon,
 } from '@phosphor-icons/react'
 
 import React from 'react'
 import NavCodeReviewerIcon from '@/assets/svg/nav-code-reviewer-icon.svg'
-import { TENKI_STORAGE_BASE, TENKI_WEB_BASE } from '@/components/constants/metadata'
 import NavAboutIcon from '@/assets/svg/nav-about-icon.svg'
+import { TENKI_STORAGE_BASE, TENKI_WEB_BASE } from '@/components/constants/metadata'
 
 const navigationItems = [
   {
@@ -17,11 +19,12 @@ const navigationItems = [
     label: 'Pricing',
   },
   {
-    label: 'Features',
+    label: 'Products',
+    href: `${TENKI_WEB_BASE}/products`,
     submenu: [
       {
         label: 'Code Reviewer',
-        href: `${TENKI_WEB_BASE}/features/code-reviewer`,
+        href: `${TENKI_WEB_BASE}/products/code-reviewer`,
         image: `${TENKI_STORAGE_BASE}/nav-reviewer-2.png`,
         icon: <NavCodeReviewerIcon />,
         new: true,
@@ -29,17 +32,38 @@ const navigationItems = [
       },
       {
         label: 'Runners',
-        href: `${TENKI_WEB_BASE}/features/runners`,
+        href: `${TENKI_WEB_BASE}/products/runners`,
         image: `${TENKI_STORAGE_BASE}/nav-runners.png`,
         icon: <ListChecksIcon weight="bold" size={16} />,
         soon: false,
       },
       {
-        label: 'Agent Sandbox',
-        href: `${TENKI_WEB_BASE}/features/sandbox`,
+        label: 'Sandbox',
+        href: `${TENKI_WEB_BASE}/products/sandbox`,
         image: `${TENKI_STORAGE_BASE}/nav-sandbox.png`,
         icon: <CodeIcon weight="bold" size={16} />,
-        soon: true,
+        soon: false,
+        beta: true,
+      },
+    ],
+  },
+  {
+    label: 'Hardware & Compute',
+    href: `${TENKI_WEB_BASE}/hardware`,
+    submenu: [
+      {
+        label: 'Hardware',
+        href: `${TENKI_WEB_BASE}/hardware`,
+        image: 'https://tenki.cloud/images/nav/nav-hardware.png',
+        icon: <HardDrivesIcon weight="bold" size={16} />,
+        soon: false,
+      },
+      {
+        label: 'Compute',
+        href: `${TENKI_WEB_BASE}/compute`,
+        image: 'https://tenki.cloud/images/nav/nav-compute.png',
+        icon: <CpuIcon weight="bold" size={16} />,
+        soon: false,
       },
     ],
   },
@@ -49,12 +73,13 @@ const navigationItems = [
   },
   {
     label: 'Company',
+    href: `${TENKI_WEB_BASE}/company`,
     submenu: [
       {
         label: 'Security',
         href: `${TENKI_WEB_BASE}/company/security`,
         image: `${TENKI_STORAGE_BASE}/nav-security-2.png`,
-        icon: <LockIcon weight={'fill'} size={16} />,
+        icon: <LockSimpleIcon weight={'fill'} size={14} />,
         soon: false,
       },
       {

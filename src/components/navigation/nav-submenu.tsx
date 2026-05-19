@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'motion/react'
 import { StatusTag } from '@/components/ui/status-tag'
 import { cn } from '@/lib/utils'
@@ -14,6 +15,7 @@ export interface NavSubmenuItem {
   icon?: React.ReactNode
   soon?: boolean
   new?: boolean
+  beta?: boolean
 }
 
 interface NavSubmenuProps {
@@ -24,6 +26,8 @@ interface NavSubmenuProps {
 }
 
 export const NavSubmenu = ({ submenu, isVisible, onHover, onLeave }: NavSubmenuProps) => {
+  const pathname = usePathname()
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -50,7 +54,16 @@ export const NavSubmenu = ({ submenu, isVisible, onHover, onLeave }: NavSubmenuP
           >
             {submenu.map((sub) => {
               return (
-                <Link key={sub.label} href={sub.href}>
+                <Link
+                  key={sub.label}
+                  href={sub.href}
+                  onClick={(e) => {
+                    if (pathname === sub.href) {
+                      e.preventDefault()
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
+                  }}
+                >
                   <div className="group border-bluish-gray-600 bg-bluish-gray-850 flex shrink-0 flex-col items-center justify-center gap-y-1.5 rounded-sm border">
                     <div className="h-[100px] w-[200px] overflow-hidden rounded-md">
                       <Image
@@ -70,6 +83,7 @@ export const NavSubmenu = ({ submenu, isVisible, onHover, onLeave }: NavSubmenuP
                         </p>
                         {sub.soon && <StatusTag label="Soon" type="info" />}
                         {sub.new && <StatusTag label="New" type="positive" />}
+                        {sub.beta && <StatusTag label="Closed Beta" type="caution" />}
                       </div>
                     </div>
                   </div>

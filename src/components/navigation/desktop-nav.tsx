@@ -31,7 +31,9 @@ export const DesktopNav = ({
   return (
     <ul className="mx-auto hidden divide-x divide-solid divide-white/[4%] rounded-lg lg:flex">
       {items.map((i, idx) => {
-        const isActive = isPathActive(currentPath, i.href)
+        const isActive =
+          isPathActive(currentPath, i.href) ||
+          (i.submenu?.some((sub) => isPathActive(currentPath, sub.href)) ?? false)
         const showBackground = activeSubmenu === idx
         const isSubMenuOpen = activeSubmenu === idx
 
@@ -73,7 +75,17 @@ export const DesktopNav = ({
                 />
               </>
             ) : (
-              <Link href={i.href!} className="relative" onClick={() => onSubmenuChange(null)}>
+              <Link
+                href={i.href!}
+                className="relative"
+                onClick={(e) => {
+                  onSubmenuChange(null)
+                  if (currentPath === i.href) {
+                    e.preventDefault()
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }
+                }}
+              >
                 {i.label}
               </Link>
             )}

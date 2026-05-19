@@ -49,6 +49,11 @@ const FOOTER_LINK_COLUMNS = [
         href: `${TENKI_WEB_BASE}/docs/terms-of-service`,
         external: true,
       },
+      {
+        label: 'Editorial Policy',
+        href: `${TENKI_WEB_BASE}/docs/editorial-policy`,
+        external: true,
+      },
     ],
   },
   {
@@ -97,7 +102,7 @@ export function Footer() {
       <footer className="bg-bluish-gray-1000 relative w-full overflow-hidden">
         <div className="border-bluish-gray-600 relative mx-auto flex max-w-[calc(100%-32px)] flex-col border-x xl:max-w-[1080px] 2xl:max-w-[1200px]">
           <div className="flex flex-col px-4 md:flex-row md:justify-between md:gap-8 lg:min-h-[400px] lg:px-8">
-            <div className="mt-6 flex flex-col gap-4 md:max-w-[228px] lg:mt-8 lg:max-w-[250px] lg:gap-8">
+            <div className="mt-6 flex flex-col gap-6 md:max-w-[228px] lg:mt-8 lg:max-w-[250px]">
               <div className="flex flex-col gap-1">
                 <Link href="/" aria-label="home" className="flex items-center space-x-2">
                   <Logo className={'w-24'} />

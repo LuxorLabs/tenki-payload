@@ -17,6 +17,11 @@
   --input: #27272a;
   --accent: #1a1a1a;
   --accent-foreground: #ffffff;
+  --color-bluish-gray-400: #36404c;
+  --color-bluish-gray-500: #1e2a39;
+  --color-bluish-gray-600: #1d232a;
+  --color-bluish-gray-850: #0a141e;
+  --color-bluish-gray-900: #050f1a;
 }
 
 @layer base {

@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { revalidatePath } from 'next/cache'
 import { lexicalEditor, EXPERIMENTAL_TableFeature, BlocksFeature } from '@payloadcms/richtext-lexical'
 import { CodeBlock } from '@payloadcms/richtext-lexical'
+import { normalizeLexicalState } from '../lib/lexical-normalize'
 
 function extractText(node: any): string {
   if (node.text) return node.text
@@ -122,6 +123,10 @@ export const Posts: CollectionConfig = {
           }),
         ],
       }),
+      hooks: {
+        afterRead: [({ value }) => normalizeLexicalState(value)],
+        beforeChange: [({ value }) => normalizeLexicalState(value)],
+      },
     },
     {
       name: 'featuredImage',
